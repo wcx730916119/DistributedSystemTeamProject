@@ -5,12 +5,11 @@
 
 var PeerServer = require('peer').PeerServer,
     express = require('express'),
-    Topics = require('./public/Topics.js'),
+    Topics = require('./chat/ConnectionTopics.js'),
     app = express(),
     port = process.env.PORT || 3001;
-app.use(express.static(__dirname + '/public'));
-
-console.log('Listening on port',__dirname );
+app.use(express.static(__dirname + '/../public'));
+console.log(__dirname + '/../public');
 
 var expressServer = app.listen(port);
 var io = require('socket.io').listen(expressServer);
