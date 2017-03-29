@@ -11,9 +11,42 @@
 
 'use strict';
 
+var lpc = window.location.search.substring(1).slice(-4);
+var rpc;
+if (lpc === 'wcx1') {
+    rpc = 'wcx2';
+}
+else {
+    rpc = 'wcx1';
+}
+var peer = new Peer(lpc, {key: '4lac1rfv8e6rbe29'}), conn;
+peer.on('open', function (id) {
+    console.log('My peer ID is: ' + id);
+    console.log('Remote peer ID is: ' + rpc);
+}).on('connection', function (conn) {
+    conn.on('data', function (data) {
+        console.log(data);
+        self.conn.close();
+        self.conn = conn;
+    });
+});
+conn = peer.connect(rpc);
+conn.on('open', function () {
+    // Receive messages
+    conn.on('data', function (data) {
+        console.log('Received', data);
+    });
+    // Send messages
+    conn.send('Hello from ' + lpc);
+});
+
+
+// conn.send('hello this is ' + lpc);
+
 var errorElement = document.querySelector('#errorMsg');
 var video = document.querySelector('video');
 
+var pc2 = document.querySelector('#pc2');
 // Put variables in global scope to make them available to the browser console.
 var constraints = window.constraints = {
     audio: false,
@@ -24,9 +57,10 @@ function handleSuccess(stream) {
     var videoTracks = stream.getVideoTracks();
     console.log('Got stream with constraints:', constraints);
     console.log('Using video device: ' + videoTracks[0].label);
-    stream.oninactive = function() {
+    stream.oninactive = function () {
         console.log('Stream inactive');
     };
+
     window.stream = stream; // make variable available to browser console
     video.srcObject = stream;
 }
@@ -50,5 +84,4 @@ function errorMsg(msg, error) {
     }
 }
 
-navigator.mediaDevices.getUserMedia(constraints).
-then(handleSuccess).catch(handleError);
+navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
