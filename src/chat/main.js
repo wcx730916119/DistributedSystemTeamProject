@@ -46,7 +46,6 @@ conn.on('open', function () {
 var errorElement = document.querySelector('#errorMsg');
 var video = document.querySelector('video');
 
-var pc2 = document.querySelector('#pc2');
 // Put variables in global scope to make them available to the browser console.
 var constraints = window.constraints = {
     audio: false,
