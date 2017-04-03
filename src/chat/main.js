@@ -1,25 +1,15 @@
-/**
- * Created by wcx73 on 2017/3/28.
- */
-/*
- *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree.
- */
-
 'use strict';
-
-var lpc = window.location.search.substring(1).slice(-4);
-var rpc;
+console.log('hello, this is sumail');
+const lpc = window.location.search.substring(1).slice(-4);
+let rpc;
 if (lpc === 'wcx1') {
     rpc = 'wcx2';
 }
 else {
     rpc = 'wcx1';
 }
-var peer = new Peer(lpc, {key: '4lac1rfv8e6rbe29'}), conn;
+const peer = new Peer(lpc, {key: '4lac1rfv8e6rbe29'});
+let conn;
 peer.on('open', function (id) {
     console.log('My peer ID is: ' + id);
     console.log('Remote peer ID is: ' + rpc);
