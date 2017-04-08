@@ -1,5 +1,4 @@
 'use strict';
-console.log('hello, this is sumail');
 const lpc = window.location.search.substring(1).slice(-4);
 let rpc;
 if (lpc === 'wcx1') {
