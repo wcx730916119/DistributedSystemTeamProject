@@ -4,6 +4,8 @@
 body {
     margin: 0;
     padding: 0;
+    height: 100vh;
+    /*background-color: #0f0f0f;*/
     /*font-family: "Calibri", "Roboto", sans-serif;*/
 }
 
@@ -15,20 +17,23 @@ body {
 }
 
 .p2p-widget-scrollable {
-    height: auto;
     /*max-height: 200px;*/
-    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 
 #left-sidebar {
     /*background: #b92c28;*/
-    max-height: 600px;
 }
 
-#code-editor {
-    background: #dddddd;
-    font-family: "Source Code Pro", monospace;
+#editor {
+    /*font-family: "Source Code Pro", monospace;*/
+    height: calc(100vh - 120px);
+    /*position: absolute;*/
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 #p2p-chat-box {
@@ -36,6 +41,7 @@ body {
 }
 
 .p2p-main-frame {
+    height: calc(100vh - 64px);
 }
 
 .p2p-no-padding-widget {
@@ -49,4 +55,15 @@ body {
 
 .p2p-media-right {
     text-align: right;
+}
+
+.p2p-single-line-nav-bar {
+    height: 64px;
+    line-height: 64px;
+}
+
+#codepad {
+    height: calc(100% - 64px);
+    padding-left: 0;
+    padding-right: 0;
 }

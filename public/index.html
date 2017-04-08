@@ -19,10 +19,14 @@
     <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
     <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap-theme.min.css">
 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+
+
 </head>
 
 <body>
-<nav class="navbar navbar-default" style="
+<nav class="navbar navbar-default p2p-single-line-nav-bar" style="
     margin-bottom: 0px;
 ">
     <div class="container-fluid">
@@ -36,18 +40,11 @@
             <a class="navbar-brand" href="#">Peer2Pair Platform</a>
         </div>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-expanded="false">Menu<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                    </ul>
-                </li>
-            </ul>
+        <div class="collapse navbar-collapse navbar-primary" id="bs-example-navbar-collapse-1">
+            <div class="nav navbar-nav">
+                <button class="btn btn-success">3f2b1a</button>
+
+            </div>
             <!--<form class="navbar-form navbar-left" role="search">-->
             <!--<div class="form-group">-->
             <!--<input type="text" class="form-control" placeholder="Search">-->
@@ -79,24 +76,26 @@
             <div class="p2p-main-widget p2p-no-padding-widget">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        Chat
+                        Chat Room
                     </div>
-                    <div class="panel-body">
-                        <div class="media">
+                    <div class="p2p-main-widget p2p-no-padding-widget">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="//www.youtube.com/embed/5GIj2BVJS2A"></iframe>
+                        </div>
+                    </div>
+                    <div class="panel-body clearfix">
+                        <div class="media float-left">
                             <div class="media-left media-top">
                                 <img src="img/avatar_img_2.png" class="media-object"
                                      style="width:48px">
                             </div>
                             <div class="media-body well well-sm">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                    Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen
-                                    book.</p>
+                                <p>Lorem Ipsum</p>
                             </div>
 
                         </div>
-                        <div class="media p2p-media-right">
-                            <div class="media-body  well well-sm">
+                        <div class="media float-right p2p-media-right">
+                            <div class="media-body well well-sm">
                                 <p>Lorem Ipsum is simply </p>
                             </div>
                             <div class="media-right media-top">
@@ -104,42 +103,6 @@
                                      style="width:48px">
                             </div>
                         </div>
-                        <!--<ul class="chat">-->
-                        <!--<li class="left clearfix"><span class="chat-img pull-left">-->
-                        <!--<img src="" alt="User Avatar" class="img-circle"/>-->
-                        <!--</span>-->
-                        <!--<div class="chat-body clearfix">-->
-                        <!--<div class="header">-->
-                        <!--<strong class="primary-font">Victor Hu</strong>-->
-                        <!--<small class="pull-right text-muted">-->
-                        <!--<span class="glyphicon glyphicon-time"></span>12 mins ago-->
-                        <!--</small>-->
-                        <!--</div>-->
-                        <!--<p>-->
-                        <!--Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum-->
-                        <!--ornare-->
-                        <!--dolor, quis ullamcorper ligula sodales.-->
-                        <!--</p>-->
-                        <!--</div>-->
-                        <!--</li>-->
-                        <!--<li class="right clearfix"><span class="chat-img pull-right">-->
-                        <!--<img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle"/>-->
-                        <!--</span>-->
-                        <!--<div class="chat-body clearfix">-->
-                        <!--<div class="header">-->
-                        <!--<small class=" text-muted"><span class="glyphicon glyphicon-time"></span>13-->
-                        <!--mins ago-->
-                        <!--</small>-->
-                        <!--<strong class="pull-right primary-font">Bhaumik Patel</strong>-->
-                        <!--</div>-->
-                        <!--<p>-->
-                        <!--Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum-->
-                        <!--ornare-->
-                        <!--dolor, quis ullamcorper ligula sodales.-->
-                        <!--</p>-->
-                        <!--</div>-->
-                        <!--</li>-->
-                        <!--</ul>-->
                     </div>
                     <div class="panel-footer">
                         <div class="input-group">
@@ -153,29 +116,28 @@
                     </div>
                 </div>
             </div>
-            <div class="p2p-main-widget p2p-no-padding-widget">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="//www.youtube.com/embed/ePbKGoIGAXY"></iframe>
-                </div>
+
+        </div>
+        <div class="col-md-9" id="codepad">
+            <div id="editor"></div>
+            <div class="container-fluid">
+                <select class="selectpicker">
+                    <option>Java</option>
+                    <option>Python</option>
+                    <option>JavaScript</option>
+                    <option>Go</option>
+                    <option>C++</option>
+                </select>
+                <button class="btn btn-success">RUN</button>
             </div>
         </div>
-        <div class="col-md-9" id="code-editor">
-            <form action="/" method="post">
-                <label>
-                    <textarea> <input type="text" name="document" size="45"> </textarea>
-                </label>
-                <br>
-                <br>
-                <input type="submit">
-            </form>
-        </div>
     </div>
-    <!--<div class="starter-template">-->
-    <!--<h1>Bootstrap starter template</h1>-->
-    <!--<p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>-->
-    <!--</div>-->
+</div>
 
-</div><!-- /.container -->
+
+
+
+<!-- /.container -->
 <!--<div id="container">-->
 <!--<video id="local_pc" autoplay muted></video>-->
 <!--<video id="remote_pc" autoplay></video>-->
@@ -187,6 +149,7 @@
 <!--<script src="../src/js/common.js"></script>-->
 <!--<script src="../src/chat/main.js"></script>-->
 <!--<script src="../src/widgets/chatbox/chatbox.js"></script>-->
+
 <script
         src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -194,5 +157,15 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    let editor = ace.edit("editor");
+    editor.setTheme("ace/theme/chrome");
+    editor.getSession().setMode("ace/mode/python");
+    editor.setValue("# welcome to our platform\nprint 'hello world'");
+    editor.setHighlightActiveLine(true);
+</script>
 </body>
 </html>
