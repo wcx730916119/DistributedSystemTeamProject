@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-// render ChatBoxWidget widget
-import ChatBox from "./widgets/ChatBoxWidget/ChatBox";
-import CodeEditor from "./widgets/CodeEditorWidget/CodeEditor";
+// render ChatBox widget
+import ChatBox from "./widgets/ChatBox/ChatBox";
+import CodeEditor from "./widgets/CodeEditor/CodeEditor";
 ReactDOM.render(
     <ChatBox />,
     document.getElementById('widget-chat-box')
@@ -19,7 +19,7 @@ ReactDOM.render(
 //     <App />,
 //     document.getElementById('root')
 // );
-// import AceEditor from './widgets/CodeEditorWidget/AceEditor/AceEditor'
+// import AceEditor from './widgets/CodeEditor/AceEditor/AceEditor'
 // ReactDOM.render(
 //     <AceEditor/>,
 //     document.getElementById('editor')

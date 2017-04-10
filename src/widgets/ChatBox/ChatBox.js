@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import "./ChatBox.css";
-// const ChatBoxWidget = React.createClass({
+// const ChatBox = React.createClass({
 //     data: {'name': 'hahaha'},
 //     render: function () {
 //         return (
