@@ -9,6 +9,7 @@ import "./CodeEditor.css";
 import AceEditor from "react-ace";
 import "brace/mode/java";
 import "brace/mode/javascript";
+import "brace/mode/python";
 import "brace/theme/github";
 
 class CodeEditor extends Component {
@@ -18,7 +19,7 @@ class CodeEditor extends Component {
         super(props);
         this.data = {"languages": ['Java', 'Python']};
         this.editor = <AceEditor
-            mode="java"
+            mode="python"
             theme="github"
             name="codepad"
             height="calc(100vh - 120px)"
