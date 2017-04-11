@@ -31,6 +31,18 @@ class CodeEditor extends Component {
             onChange={CodeEditor.onChange}
             value="print 'Hello World'"
         />;
+        this.terminal = <AceEditor
+            mode="python"
+            theme="github"
+            name="codepad"
+            height="calc(100vh - 128px)"
+            width="100%"
+            // onLoad={}
+            onChange={CodeEditor.onChange}
+            value="Hello World"
+        />;
+
+
     }
 
     componentDidMount() {
@@ -46,7 +58,7 @@ class CodeEditor extends Component {
             <div>
                 <div className="row">
                     <div className="col-md-6">{this.editor}</div>
-                    <div className="col-md-6">{this.editor}</div>
+                    <div className="col-md-6">{this.terminal}</div>
                 </div>
                 <div className="container-fluid">
                     <select className="selectpicker">
