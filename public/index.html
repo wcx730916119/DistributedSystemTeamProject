@@ -16,13 +16,27 @@
     <link rel="icon" sizes="192x192" href="/src/logo.svg">
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
-    <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap-theme.min.css">
+    <!--<link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap-theme.min.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
+<!--<section id="container">-->
+<!--<div class="reg-form-container">-->
+<!--<label for="username-input">Username</label>-->
+<!--<input type="text" id="username-input" class="form-control">-->
+<!--<br>-->
+<!--<button id="connect-btn" class="btn btn-primary">Connect</button>-->
+<!--</div>-->
+<!--<ul id="messages"></ul>-->
 
+<!--</section>-->
+<!--<ul id="messages">-->
+<!--</ul>-->
+<!--<form action="">-->
+<!--<input id="m" autocomplete="off" /><button>Send</button>-->
+<!--</form>-->
 <nav class="navbar navbar-default p2p-single-line-nav-bar">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -45,7 +59,8 @@
     </div>
 </div>
 
-<!--<script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>-->
+<script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script
         src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -54,9 +69,22 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"
         type="text/javascript" charset="utf-8"></script>
-
+<!--<script type="text/jsx" src="../src/app.jsx"></script>-->
+<!--<script>
+    $(function () {
+        var socket = io('localhost:3001');
+        $('form').submit(function(){
+            socket.emit('chat message', $('#m').val());
+            $('#m').val('');
+            return false;
+        });
+        socket.on('chat message', function(msg){
+            console.log(msg);
+            $('#messages').append($('<li>').text(msg));
+        });
+    });
+</script>-->
 </body>
 </html>

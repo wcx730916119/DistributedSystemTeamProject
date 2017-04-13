@@ -1,53 +1,56 @@
-/** @jsx React.DOM */
+import React, {Component} from "react";
+import MessagesList from "./MessagesList";
+import UsersList from "./UsersList";
+import MessageInput from "./MessageInput";
 
-'use strict';
+export default class ChatBoxWidget extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {users: []};
+    }
 
-var ChatBox = React.createClass({
-    getInitialState: function () {
-        return { users: [] };
-    },
-
-    componentDidMount: function () {
+    componentDidMount() {
         this.chatProxy = this.props.chatProxy;
+        console.log(this.chatProxy);
         this.chatProxy.connect(this.props.username);
-        this.chatProxy.onMessage(this.addMessage.bind(this));
-        this.chatProxy.onUserConnected(this.userConnected.bind(this));
-        this.chatProxy.onUserDisconnected(this.userDisconnected.bind(this));
-    },
+        this.chatProxy.onMessage(this.addMessage);
+        this.chatProxy.onUserConnected(this.userConnected);
+        this.chatProxy.onUserDisconnected(this.userDisconnected);
+    }
 
-    userConnected: function (user) {
-        var users = this.state.users;
+    userConnected(user) {
+        let users = this.state.users;
         users.push(user);
         this.setState({
             users: users
         });
-    },
+    }
 
-    userDisconnected: function (user) {
-        var users = this.state.users;
+    userDisconnected(user) {
+        let users = this.state.users;
         users.splice(users.indexOf(user), 1);
         this.setState({
             users: users
         });
-    },
+    }
 
-    messageHandler: function (message) {
+    messageHandler(message) {
         message = this.refs.messageInput.getDOMNode().value;
         this.addMessage({
             content: message,
-            author : this.chatProxy.getUsername()
+            author: this.chatProxy.getUsername()
         });
         this.chatProxy.broadcast(message);
-    },
+    }
 
-    addMessage: function (message) {
+    addMessage(message) {
         if (message) {
             message.date = new Date();
             this.refs.messagesList.addMessage(message);
         }
-    },
+    }
 
-    render: function () {
+    render() {
         return (
             <div className="chat-box" ref="root">
                 <div className="chat-header ui-widget-header">React p2p Chat</div>
@@ -62,4 +65,4 @@ var ChatBox = React.createClass({
             </div>
         );
     }
-});
+}
