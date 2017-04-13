@@ -9,19 +9,20 @@ class ChatBox extends Component {
     constructor(props) {
         super(props);
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
+        this.connectNewPeer = this.connectNewPeer.bind(this);
     }
 
     hello() {
         console.log('this is chatbox.js');
     }
 
+    connectNewPeer(e) {
+        console.log('handle event', this);
+        this.proxy.call(document.getElementById("uid").value);
+    }
     componentDidMount() {
-        // console.log(this.video.hello()); // Prints 'bar'
         this.proxy = new ChatProxy({name: Math.random().toString(36).substring(7)});
         this.proxy.setCallBack(this);
-        // this.proxy.call();
-
     }
 
     render() {
@@ -33,6 +34,9 @@ class ChatBox extends Component {
                     </div>
                     <div className="p2p-main-widget p2p-no-padding-widget">
                         <VideoFrame ref={(video) => this.video = video}/>
+                        <input id="uid"></input>
+
+                        <button onClick={this.connectNewPeer}>ac</button>
                     </div>
                     <div className="panel-body clearfix">
                         <div className="media float-left">

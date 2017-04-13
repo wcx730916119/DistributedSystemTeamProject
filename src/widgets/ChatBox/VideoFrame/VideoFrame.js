@@ -10,10 +10,6 @@ export default class VideoFrame extends Component {
         this.state = {src: 'abc'};
     }
 
-    hello() {
-        console.log('this is video_frame.js');
-    }
-
     render() {
         return (
             <video ref="video" src={this.state.src} autoPlay/>)
