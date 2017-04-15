@@ -3,7 +3,7 @@ package paxos
 import (
 	"errors"
 	"fmt"
-	"paxos/rpc/paxosrpc"
+	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/rpc/paxosrpc"
 	"net"
 	"net/http"
 	"net/rpc"

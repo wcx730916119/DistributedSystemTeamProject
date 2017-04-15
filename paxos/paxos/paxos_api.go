@@ -1,7 +1,7 @@
 package paxos
 
 import (
-	"paxos/rpc/paxosrpc"
+	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/rpc/paxosrpc"
 )
 
 // GetNextProposalNumber generates a proposal number which will be passed to Propose.

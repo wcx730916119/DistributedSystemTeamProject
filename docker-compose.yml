@@ -1,0 +1,5 @@
+paxos:
+  build: .
+  command: make serve
+  volumes:
+    - ./:/go/src/github.com/wcx730916119/DistributedSystemTeamProject
