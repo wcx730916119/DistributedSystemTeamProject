@@ -14,6 +14,7 @@ docker-compose run --rm paxos bash
 
 A few example commands that you can run:
 
+```bash
 # compile
 make build
 
@@ -22,3 +23,4 @@ GOOS=linux GOARCH=arm make build
 
 # cross-compile for Windows AMD64
 GOOS=windows BINEXT=.exe GOARCH=amd64 make build
+```

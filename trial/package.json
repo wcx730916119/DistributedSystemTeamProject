@@ -1,0 +1,17 @@
+{
+  "name": "client_testing",
+  "version": "1.0.0",
+  "description": "client_testing",
+  "main": "index.js",
+  "dependencies": {
+    "fast": "^2.2.3",
+    "jsonrpc": "^0.1.1",
+    "node-json-rpc": "0.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
