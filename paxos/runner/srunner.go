@@ -7,7 +7,7 @@ import (
 	"log"
 	"strings"
 
-	"paxos/server"
+	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/server"
 )
 
 var (

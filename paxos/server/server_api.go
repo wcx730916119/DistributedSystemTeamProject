@@ -1,12 +1,12 @@
 package server
 
 import (
-	"paxos/rpc/paxosrpc"
+	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/rpc/serverrpc"
 )
 
 //AddEdit sends a Propose of a diff to other Paxos nodes
 //GetEdit gets the latest Commit from Paxos
 type Server interface {
-	AddEdit(args *AddEditArgs, reply *AddEditReply) error
-	GetEdit(args *GetEditArgs, reply *GetEditReply) error
+	AddEdit(args *serverrpc.AddEditArgs, reply *serverrpc.AddEditReply) error
+	GetEdit(args *serverrpc.GetEditArgs, reply *serverrpc.GetEditReply) error
 }

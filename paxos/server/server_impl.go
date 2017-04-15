@@ -2,12 +2,11 @@ package server
 
 import (
 	"errors"
-	"paxos/paxos"
-	"paxos/rpc/paxosrpc"
-	"paxos/rpc/serverrpc"
+	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/paxos"
+	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/rpc/paxosrpc"
+	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/rpc/serverrpc"
 	"net/rpc"
 	"sync"
-	"time"
 )
 
 type server struct {
@@ -30,17 +29,15 @@ func NewServer(hostMap map[int]string, nodeID int) (Server, error) {
 }
 
 func (srv *server) AddEdit(args *serverrpc.AddEditArgs, reply *serverrpc.AddEditReply) error {
-	var ok bool
-
-	proposalNumberArgs = &paxosrpc.ProposalNumberArgs{Key: args.Session}
-	var proposalNumberReply paxosrpc.ProposalNumberArgs
-	if err := srv.paxosInstance.GetNextProposalNumber(paxArg, paxReply); err != nil {
+	proposalNumberArgs := &paxosrpc.ProposalNumberArgs{Key: args.Session}
+	proposalNumberReply := new(paxosrpc.ProposalNumberReply)
+	if err := srv.paxosInstance.GetNextProposalNumber(proposalNumberArgs, proposalNumberReply); err != nil {
 		reply.Response = "failure"
 		return err
 	}
 
-	proposalArgs = &paxosrpc.ProposeArgs{N: proposalNumberReply, Key: args.Session, V: args.Diff}
-	var proposalReply paxosrpc.ProposeReply
+	proposalArgs := &paxosrpc.ProposeArgs{N: proposalNumberReply.N, Key: args.Session, V: args.Diff}
+	proposalReply := new(paxosrpc.ProposeReply)
 	if err := srv.paxosInstance.Propose(proposalArgs, proposalReply); err != nil {
 		reply.Response = "failure"
 		return err
@@ -52,11 +49,11 @@ func (srv *server) AddEdit(args *serverrpc.AddEditArgs, reply *serverrpc.AddEdit
 func (srv *server) GetEdit(args *serverrpc.GetEditArgs, reply *serverrpc.GetEditReply) error {
 	var ok bool
 
-	proposalNumberArgs = &paxosrpc.GetValueArgs{Key: args.Session}
-	var proposalNumberReply paxosrpc.GetValueReply
-	srv.paxosInstance.GetValue(paxArg, paxReply)
-	var pack serverrpc.GetEditReply
-	if *pack, ok = paxReply.V.(serverrpc.GetEditReply); ok {
+	valueArgs := &paxosrpc.GetValueArgs{Key: args.Session}
+	valueReply := new(paxosrpc.GetValueReply)
+	srv.paxosInstance.GetValue(valueArgs, valueReply)
+	pack := new(serverrpc.GetEditReply)
+	if *pack, ok = valueReply.V.(serverrpc.GetEditReply); ok {
 		*reply = *pack
 		return nil
 	} else {
