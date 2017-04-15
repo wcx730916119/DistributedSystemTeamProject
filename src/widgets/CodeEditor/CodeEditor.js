@@ -3,7 +3,6 @@
  */
 import React, {Component} from "react";
 import "./CodeEditor.css";
-// import AceEditor from "react-ace";
 import AceEditor from "./AceEditor/AceEditor";
 import "brace/mode/java";
 

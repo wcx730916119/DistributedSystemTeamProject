@@ -1548,10 +1548,10 @@ var ReactClass = {
       // ReactClasses doesn't have constructors. Instead, they use the
       // getInitialState and componentWillMount methods for initialization.
 
-      var initialState = this.getInitialState ? this.getInitialState() : null;
+        var initialState = MessageInput.getInitialState ? MessageInput.getInitialState() : null;
       if ("development" !== 'production') {
         // We allow auto-mocks to proceed as if they're returning null.
-        if (initialState === undefined && this.getInitialState._isMockFunction) {
+          if (initialState === undefined && MessageInput.getInitialState._isMockFunction) {
           // This is probably bad practice. Consider warning here and
           // deprecating this convenience.
           initialState = null;
@@ -1582,8 +1582,8 @@ var ReactClass = {
       if (Constructor.getDefaultProps) {
         Constructor.getDefaultProps.isReactClassApproved = {};
       }
-      if (Constructor.prototype.getInitialState) {
-        Constructor.prototype.getInitialState.isReactClassApproved = {};
+        if (MessageInput.getInitialState) {
+            MessageInput.getInitialState.isReactClassApproved = {};
       }
     }
 
