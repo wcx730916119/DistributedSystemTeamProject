@@ -6,6 +6,7 @@ import EventEmitter from "eventemitter3";
 export default class ChatProxy extends EventEmitter {
     constructor(props) {
         super(props);
+        let self = this;
         this._peers = {};
         this.name = props.name;
         console.log('peer_name:', this.name);
@@ -20,17 +21,16 @@ export default class ChatProxy extends EventEmitter {
         });
         // Receiving a call
         this.peer.on('call', function (call) {
-            // Answer the call automatically (instead of prompting user) for demo purposes
+            console.log('local stream', window.localStream);
             call.answer(window.localStream);
-            // step3(call);
+            call.on('stream', function (stream) {
+                console.log('stream is coming', stream);
+                self.setVideoSrc(stream);
+            });
         });
         this.peer.on('error', function (err) {
             alert(err.message);
-            // Return to step 2 if error occurs
-            // step2();
         });
-
-
     }
 
     setVideoSrc(stream) {
@@ -40,8 +40,6 @@ export default class ChatProxy extends EventEmitter {
 
     call(peer_id) {
         let call = this.peer.call(peer_id, window.localStream);
-        console.log('calling');
-
         this.updateCallStream(call);
     }
 
@@ -52,11 +50,12 @@ export default class ChatProxy extends EventEmitter {
     }
 
     setCallBack(cb) {
-        let chatProxySelf = this;
+        let self = this;
         this.cb = cb;
-        navigator.getUserMedia({audio: true, video: true}, function (stream) {
+        let config = this.name === 'chenxi' ? {audio: true, video: false} : {audio: true, video: true};
+        navigator.getUserMedia(config, function (stream) {
             // Set your video displays
-            chatProxySelf.setVideoSrc(stream);
+            self.setVideoSrc(stream);
             window.localStream = stream;
         }, function () {
             console.error('failed to call');
@@ -64,14 +63,14 @@ export default class ChatProxy extends EventEmitter {
     }
 
     updateCallStream(call) {
-        let chatProxySelf = this;
+        let self = this;
         if (window.existingCall) {
             window.existingCall.close();
         }
         // Wait for stream on the call, then set peer video display
         call.on('stream', function (stream) {
-            console.log('stream');
-            chatProxySelf.setVideoSrc(stream);
+            console.log('stream is coming');
+            self.setVideoSrc(stream);
         });
         // UI stuff
         // window.existingCall = call;

@@ -5,67 +5,117 @@ import React, {Component} from "react";
 import ChatProxy from "./ChatProxy";
 import "./ChatBox.css";
 import VideoFrame from "./VideoFrame/VideoFrame";
-class ChatBox extends Component {
+import PeerList from "./PeerList/PeerList";
+import ChatMessage from "./ChatFrame/ChatMessage";
+
+export default class ChatBox extends Component {
     constructor(props) {
         super(props);
+        this.state = {messages: [], name: ''};
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         this.connectNewPeer = this.connectNewPeer.bind(this);
-    }
-
-    hello() {
-        console.log('this is chatbox.js');
+        this.submitMessage = this.submitMessage.bind(this);
+        this.keyHandler = this.keyHandler.bind(this);
+        this.submitName = this.submitName.bind(this);
+        this.nameKeyHandler = this.nameKeyHandler.bind(this);
     }
 
     connectNewPeer(e) {
-        console.log('handle event', this);
         this.proxy.call(document.getElementById("uid").value);
     }
+
     componentDidMount() {
-        this.proxy = new ChatProxy({name: Math.random().toString(36).substring(7)});
-        this.proxy.setCallBack(this);
+
+    }
+
+    addMessages(message) {
+        let m = this.state.messages;
+        m.push(message);
+        this.setState({messages: m});
+    }
+
+    keyHandler(event) {
+        if (event.keyCode === 13) {
+            this.submitMessage();
+        }
+    }
+
+
+    submitMessage() {
+        let text = document.getElementById('btn-input');
+        if (text.length !== 0) {
+            this.addMessages({text: text.value, user: this.state.name});
+            text.value = null;
+        }
+    }
+
+    nameKeyHandler(event) {
+        if (event.keyCode === 13) {
+            this.submitName();
+        }
+    }
+
+    submitName() {
+        let text = document.getElementById('btn-name').value;
+        console.log('submitName', text);
+        if (text.length !== 0) {
+            this.setState({name: text});
+            this.proxy = new ChatProxy({name: text});
+            this.proxy.setCallBack(this);
+
+            // TODO: test
+            this.addMessages({user: 'chenxi', text: "hello1"});
+            this.addMessages({user: 'victor', text: "hello2"});
+        }
     }
 
     render() {
+        let self = this;
         return (
             <div className="p2p-no-padding-widget" id="left-sidebar">
                 <div className="panel panel-primary">
                     <div className="panel-heading">
-                        Chat Room
+                        {
+                            this.state.name === '' ?
+                                <div className="input-group">
+                                    <input id="btn-name" type="text" className="form-control input-sm"
+                                           placeholder="user id" onKeyUp={this.nameKeyHandler}/>
+                                    <span className="input-group-btn">
+                                    <button className="btn btn-primary btn-sm" id="btn-chat" onClick={this.submitName}
+                                    >Set</button>
+                                    </span>
+                                </div> :
+                                <p>{this.state.name}</p>
+                        }
                     </div>
                     <div className="p2p-main-widget p2p-no-padding-widget">
                         <VideoFrame ref={(video) => this.video = video}/>
-                        <input id="uid"></input>
-
-                        <button onClick={this.connectNewPeer}>ac</button>
                     </div>
+                    <div className="panel-footer">
+                        <div className="input-group">
+                            <input id="uid" type="text" className="form-control input-sm"
+                                   placeholder="user id" onKeyUp={this.keyHandler}/>
+                            <span className="input-group-btn">
+                                <button className="btn btn-primary btn-sm" id="btn-chat" onClick={this.connectNewPeer}
+                                >Connect</button>
+                            </span>
+                        </div>
+                    </div>
+                    <PeerList/>
                     <div className="panel-body clearfix">
-                        <div className="media float-left">
-                            <div className="media-left media-top">
-                                <img src="img/avatar_img_2.png" className="media-object" alt=""
-                                     style={{width: 48}}/>
-                            </div>
-                            <div className="media-body well well-sm">
-                                <p>None</p>
-                            </div>
-                        </div>
-                        <div className="media float-right p2p-media-right">
-                            <div className="media-body well well-sm">
-                                <p>Lorem Ipsum is simply </p>
-                            </div>
-                            <div className="media-right media-top">
-                                <img src="img/avatar_img_1.png" className="media-object" alt=""
-                                     style={{width: 48}}/>
-                            </div>
-                        </div>
+                        {this.state.messages.map(function (message, idx) {
+                            return <ChatMessage key={idx} message={message}
+                                                self={self.state.name === message.user}/>
+                        })}
                     </div>
                     <div className="panel-footer">
                         <div className="input-group">
                             <input id="btn-input" type="text" className="form-control input-sm"
-                                   placeholder="Type your message here..."/>
+                                   placeholder="Type your message here..." onKeyUp={this.keyHandler}/>
                             <span className="input-group-btn">
-                  <button className="btn btn-primary btn-sm" id="btn-chat">
-                    Send</button>
-                </span>
+                                <button className="btn btn-primary btn-sm" id="btn-chat" onClick={this.submitMessage}
+                                >Send</button>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -74,4 +124,3 @@ class ChatBox extends Component {
 }
 
 
-export default ChatBox;
