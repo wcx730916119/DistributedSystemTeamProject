@@ -60,10 +60,10 @@ type catchupData struct {
 	CommitStore map[string]interface{}
 }
 func debugPrint(a ...interface{}) {
-	//fmt.Println(a)
+	fmt.Println(a)
 }
 func (pn *paxosNode) debugPrint(a ...interface{}) {
-	//fmt.Println("[Node", pn.ServerID, "]", a)
+	fmt.Println("[Node", pn.ServerID, "]", a)
 }
 
 // Creates a new Paxos node. Only returns if it can connect to all nodes in the hostMap.
@@ -327,7 +327,10 @@ func (pn *paxosNode) GetValue(args *paxosrpc.GetValueArgs, reply *paxosrpc.GetVa
 	pn.Lock.Lock()
 	defer pn.Lock.Unlock()
 
-	value, ok := pn.CommitStore[args.Key]
+
+	pn.debugPrint("Received GetValue", args.Key)
+
+	value, _ := pn.CommitStore[args.Key]
 	if !ok {
 		*reply = paxosrpc.GetValueReply{Status: paxosrpc.KeyNotFound}
 	} else {
@@ -386,9 +389,11 @@ func (pn *paxosNode) RecvCommit(args *paxosrpc.CommitArgs, reply *paxosrpc.Commi
 	pn.CommitStore[args.Key] = args.V
 	data, ok := pn.ProposalState[args.Key]
 	if !ok {
+		pn.debugPrint("Commit failed")
 		pn.ProposalState[args.Key] = state{N_a: 0, N_h: 0, My_n: 0}
 	} else {
         /* Clean up N_a and V_a in case we get another proposal for the same key */
+		pn.debugPrint("Commit succeeded")
 		data.N_a = 0
 		data.V_a = nil
 		pn.ProposalState[args.Key] = data
