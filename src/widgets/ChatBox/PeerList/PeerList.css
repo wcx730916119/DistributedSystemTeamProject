@@ -1,0 +1,28 @@
+.list-group-horizontal {
+    margin: 4px;
+    padding-left: 1px;
+}
+
+.list-group-horizontal .list-group-item {
+    display: inline-block;
+
+}
+
+.list-group-horizontal .list-group-item {
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    border-right-width: 0;
+}
+
+.list-group-horizontal .list-group-item:first-child {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.list-group-horizontal .list-group-item:last-child {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-right-width: 1px;
+}

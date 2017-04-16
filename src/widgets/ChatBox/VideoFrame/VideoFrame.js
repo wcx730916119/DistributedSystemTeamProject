@@ -9,7 +9,6 @@ export default class VideoFrame extends Component {
         super(props);
         this.state = {src: 'abc'};
     }
-
     render() {
         return (
             <video ref="video" src={this.state.src} autoPlay/>)
