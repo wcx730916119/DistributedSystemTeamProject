@@ -16,10 +16,10 @@ A few example commands that you can run:
 
 ```bash
 # compile the server
-make server
+make app
 
-# compile the sample client code
-make client
+# compile the paxos node
+make paxos
 
 # cross-compile for Linux ARM
 GOOS=linux GOARCH=arm make {version}
