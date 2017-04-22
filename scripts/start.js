@@ -291,7 +291,7 @@ function run(port) {
     runDevServer(host, port, protocol);
 }
 
-// We attempt to use the default port but if it is busy, we offer the user to
+// We attempt to use the default port but if it is busy, we offer the name to
 // run on a different port. `detect()` Promise resolves to the next free port.
 detect(DEFAULT_PORT).then(port => {
     if (port === DEFAULT_PORT) {
@@ -328,8 +328,31 @@ let http = require('http').Server(app);
 let io = require('socket.io')(http);
 let path = require('path');
 {
+
+    app.use(function (req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    });
+
     app.get('/', function (req, res) {
         res.send('无可奉告！');
+    });
+    app.get('/code', function (req, res) {
+        const spawn = require('child_process').spawn;
+        console.log('running code', req.query.code);
+        const ls = spawn('python', ['-c', req.query.code]);
+        ls.stdout.on('data', (data) => {
+            res.send(`stdout: ${data}`);
+        });
+
+        ls.stderr.on('data', (data) => {
+            res.send(`stderr: ${data}`);
+        });
+
+        ls.on('close', (code) => {
+            console.log(`child process exited with code ${code}`);
+        });
     });
 
     io.on('connection', function (socket) {
@@ -359,8 +382,4 @@ peerServer.on('disconnect', function (id) {
     io.emit(Topics.USER_DISCONNECTED, id);
     console.log('User disconnected with #', id);
 });
-
-
-
-
 

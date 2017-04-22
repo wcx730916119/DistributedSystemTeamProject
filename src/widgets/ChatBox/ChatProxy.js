@@ -23,10 +23,13 @@ export default class ChatProxy extends EventEmitter {
         this.peer.on('call', function (call) {
             console.log('local stream', window.localStream);
             call.answer(window.localStream);
-            call.on('stream', function (stream) {
-                console.log('stream is coming', stream);
-                self.setVideoSrc(stream);
-            });
+            self.cb.addMessages({'name': self.name, 'text': 'hello'});
+            self.updateCallStream(call);
+            // call.on('stream', function (stream) {
+            //     console.log('stream is coming', stream);
+            //     self.cb.addPeer(call.peer);
+            //     self.setVideoSrc(stream);
+            // });
         });
         this.peer.on('error', function (err) {
             alert(err.message);
@@ -52,7 +55,8 @@ export default class ChatProxy extends EventEmitter {
     setCallBack(cb) {
         let self = this;
         this.cb = cb;
-        let config = this.name === 'chenxi' ? {audio: true, video: false} : {audio: true, video: true};
+        this.cb.addPeer(this.name);
+        let config = this.name === 'ds' ? {audio: true, video: false} : {audio: true, video: true};
         navigator.getUserMedia(config, function (stream) {
             // Set your video displays
             self.setVideoSrc(stream);
@@ -70,8 +74,10 @@ export default class ChatProxy extends EventEmitter {
         // Wait for stream on the call, then set peer video display
         call.on('stream', function (stream) {
             console.log('stream is coming');
+            self.cb.addPeer(call.peer);
             self.setVideoSrc(stream);
         });
+        window.exsistingCall = call;
         // UI stuff
         // window.existingCall = call;
         // $('#their-id').text(call.peer);

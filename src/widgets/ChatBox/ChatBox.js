@@ -11,7 +11,7 @@ import ChatMessage from "./ChatFrame/ChatMessage";
 export default class ChatBox extends Component {
     constructor(props) {
         super(props);
-        this.state = {messages: [], name: ''};
+        this.state = {messages: [], name: '', peers: []};
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         this.connectNewPeer = this.connectNewPeer.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
@@ -55,6 +55,14 @@ export default class ChatBox extends Component {
         }
     }
 
+    addPeer(peer) {
+        let peers = this.state.peers;
+        peers.push(peer);
+        this.setState({peers: peers});
+    }
+
+
+
     submitName() {
         let text = document.getElementById('btn-name').value;
         console.log('submitName', text);
@@ -64,8 +72,8 @@ export default class ChatBox extends Component {
             this.proxy.setCallBack(this);
 
             // TODO: test
-            this.addMessages({user: 'chenxi', text: "hello1"});
-            this.addMessages({user: 'victor', text: "hello2"});
+            // this.addMessages({name: 'chenxi', text: "hello1"});
+            // this.addMessages({name: 'victor', text: "hello2"});
         }
     }
 
@@ -101,11 +109,11 @@ export default class ChatBox extends Component {
                             </span>
                         </div>
                     </div>
-                    <PeerList/>
+                    <PeerList peers={this.state.peers}/>
                     <div className="panel-body clearfix">
                         {this.state.messages.map(function (message, idx) {
                             return <ChatMessage key={idx} message={message}
-                                                self={self.state.name === message.user}/>
+                                                self={self.state.name === message.name}/>
                         })}
                     </div>
                     <div className="panel-footer">
