@@ -12,7 +12,6 @@ import axios from "axios";
 export default class CodeEditor extends Component {
     constructor(props) {
         super(props);
-        this.runProgram = this.runProgram.bind(this);
         this.defaultValue = [{
             'lang': 'java',
             'code': 'System.out.println("Hello World");\n'
@@ -20,58 +19,43 @@ export default class CodeEditor extends Component {
             'lang': 'python',
             'code': 'print "Hello World"'
         }];
-        this.state = {code: "print 'hello world'", out: ''};
-        this.editor = <AceEditor
+        this.state = {output: '', code: "print 'hello world'"};
+        this.codeEditor = <AceEditor
             mode="python"
             theme="github"
             name="codepad"
             height="calc(100vh - 128px)"
             width="100%"
-            // onLoad={}
-            onChange={CodeEditor.onChange}
-            value="print 'hello world'"
-        />;
-        this.terminal = <AceEditor
-            mode="python"
-            theme="github"
-            name="codepad"
-            height="calc(100vh - 128px)"
-            width="100%"
-            // onLoad={}
-            onChange={CodeEditor.onChange}
-            value={this.state.out}
+            onChange={this.onChange.bind(this)}
+            defaultValue="print 'hello world'"
         />;
     }
 
     componentDidMount() {
     }
 
+    onChange(newValue) {
+        this.setState({'code':newValue});
+    }
+
+
     runProgram() {
-        let self = this;
-        let code = this.state.code;
-        axios.get('http://localhost:3001/code?code=' + code).then(function (response) {
-            // perform setState here
-            console.log(response.data);
-            self.setState({'out': response.data});
-            console.log(self.state);
-        }).catch(function (error) {
+
+        axios.get('http://localhost:3001/code?code=' + encodeURIComponent(this.state.code)).then(function (response) {
+            this.setState({'output': response.data});
+            console.log(this.state)
+        }.bind(this)).catch(function (error) {
             //Some error occurred
             console.error('error', error);
         });
-    }
-
-    static onChange(newValue) {
-        console.log(newValue);
-        this.state.code = newValue;
     }
 
     render() {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-6">{this.editor}</div>
-                    {/*<div className="col-md-6">{this.terminal}</div>*/}
-                    <div className="col-md-6">{this.state.out}</div>
+                    <div className="col-md-6">{this.codeEditor}</div>
+                    <div className="col-md-6 output-area" >{this.state.output}</div>
                 </div>
                 <div className="container-fluid">
                     <select className="selectpicker">
@@ -80,7 +64,7 @@ export default class CodeEditor extends Component {
                             }
                         )}
                     </select>
-                    <button className="btn btn-success" onClick={this.runProgram}>RUN</button>
+                    <button className="btn btn-success" onClick={this.runProgram.bind(this)}>RUN</button>
                 </div>
             </div>
         );
