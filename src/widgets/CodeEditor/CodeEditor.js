@@ -24,7 +24,7 @@ export default class CodeEditor extends Component {
             mode="python"
             theme="github"
             name="codepad"
-            height="calc(100vh - 128px)"
+            height="calc(100vh - 270px)"
             width="100%"
             onChange={this.onChange.bind(this)}
             defaultValue="print 'hello world'"
@@ -55,16 +55,10 @@ export default class CodeEditor extends Component {
             <div>
                 <div className="row">
                     <div className="col-md-6">{this.codeEditor}</div>
-                    <div className="col-md-6 output-area" >{this.state.output}</div>
+                    <div className="col-md-6 output-area">{this.state.output}</div>
                 </div>
                 <div className="container-fluid">
-                    <select className="selectpicker">
-                        {this.defaultValue.map((lang, id) => {
-                                return <option key={id}>{lang['lang']}</option>
-                            }
-                        )}
-                    </select>
-                    <button className="btn btn-success" onClick={this.runProgram.bind(this)}>RUN</button>
+                    <button className="btn btn-success " onClick={this.runProgram.bind(this)}>RUN</button>
                 </div>
             </div>
         );
