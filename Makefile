@@ -4,12 +4,12 @@ GOOS ?= linux
 GOARCH ?= amd64
 
 app: statics
-	@echo "Compiling server for $(GOOS) $(GOARCH)"
+	@echo "Compiling app for $(GOOS) $(GOARCH)"
 	@mkdir -p build
-	@GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/app$(BINEXT) paxos/runner/application/srunner.go
+	@GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/app$(BINEXT) paxos/runner/application/app.go
 
 paxos: statics
-	@echo "Compiling client for $(GOOS) $(GOARCH)"
+	@echo "Compiling paxos for $(GOOS) $(GOARCH)"
 	@mkdir -p build
 	@GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/paxos$(BINEXT) paxos/runner/paxosrunner/paxosrunner.go
 

@@ -3,60 +3,58 @@ package main
 import (
 	"net/http"
 	"net/rpc"
-	"net/url"
-	"html/template"
 	"fmt"
 	"strconv"
 	"flag"
 	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/rpc/paxosrpc"
+
+	"math/rand"
 )
 
 var (
-	cli       *rpc.client
+	client      *rpc.Client
 	paxosport = flag.String("paxosport", "", "port of the specified paxos node")
 	localport = flag.String("port", "8080", "port to run the local server") 
 )
 
-func (srv *server) AddEdit(args *serverrpc.AddEditArgs, reply *serverrpc.AddEditReply) error {
-	proposalNumberArgs := &paxosrpc.ProposalNumberArgs{Key: args.Session}
+func addEdit(session string, value string) error {
+	proposalNumberArgs := &paxosrpc.ProposalNumberArgs{Key: session}
 	proposalNumberReply := new(paxosrpc.ProposalNumberReply)
-	if err := client.Call("PaxosNode.GetNextProposalNumber", args, reply); err != nil {
-		reply.Response = "failure"
+	if err := client.Call("PaxosNode.GetNextProposalNumber", proposalNumberArgs, proposalNumberReply); err != nil {
 		return err
 	}
 
-	proposalArgs := &paxosrpc.ProposeArgs{N: proposalNumberReply.N, Key: args.Session, V: args.Diff}
+	proposalArgs := &paxosrpc.ProposeArgs{N: proposalNumberReply.N, Key: session, V: value}
 	proposalReply := new(paxosrpc.ProposeReply)
-	if err := client.Call("PaxosNode.Propose", proposeArgs, proposeReply); err != nil {
-		reply.Response = "failure"
+	if err := client.Call("PaxosNode.Propose", proposalArgs, proposalReply); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (srv *server) GetEdit(args *serverrpc.GetEditArgs, reply *serverrpc.GetEditReply) error {
-	var ok bool
-
-	valueArgs := &paxosrpc.GetValueArgs{Key: args.Session}
+func getEdit(session string) string {
+	valueArgs := &paxosrpc.GetValueArgs{Key: session}
 	valueReply := new(paxosrpc.GetValueReply)
-	client.Call("PaxosNode.GetValue", args, reply)
-	pack := new(serverrpc.GetEditReply)
-	if *pack, ok = valueReply.V.(serverrpc.GetEditReply); ok {
-		*reply = *pack
-		return nil
-	} else {
-		return errors.New("no edits")
-	}
+	client.Call("PaxosNode.GetValue", valueArgs, valueReply)
 
-	return nil
+	return valueReply.V.(string)
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
-	query := r.URL.RawQuery
-	//handle html and routes
+	//query := r.URL.RawQuery
+	if (path == "/testedit") {
+		nonce := strconv.FormatInt(int64(rand.Intn(1000000)),10)
+		addEdit("asdfasdf", nonce)
+		fmt.Fprint(w, nonce);
+	} else if (path == "/getedit") {
+		edit := getEdit("asdfasdf")
+		fmt.Fprint(w, edit);
+	}
+
 }
+
 func main() {
 	flag.Parse()
 

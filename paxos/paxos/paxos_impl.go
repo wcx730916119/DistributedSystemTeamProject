@@ -327,10 +327,9 @@ func (pn *paxosNode) GetValue(args *paxosrpc.GetValueArgs, reply *paxosrpc.GetVa
 	pn.Lock.Lock()
 	defer pn.Lock.Unlock()
 
-
 	pn.debugPrint("Received GetValue", args.Key)
 
-	value, _ := pn.CommitStore[args.Key]
+	value, ok := pn.CommitStore[args.Key]
 	if !ok {
 		*reply = paxosrpc.GetValueReply{Status: paxosrpc.KeyNotFound}
 	} else {
