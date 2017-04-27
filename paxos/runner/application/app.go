@@ -33,6 +33,9 @@ func addEdit(session string, value string) error {
 	if err := rpc_client.Call("PaxosNode.Propose", proposalArgs, proposalReply); err != nil {
 		return err
 	}
+	//TODO: fix this appropriately too.
+	// update the last_message to one you proposed
+	last_message = value
 
 	return nil
 }
