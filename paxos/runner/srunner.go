@@ -6,8 +6,8 @@ import (
 	"flag"
 	"log"
 	"strings"
-
 	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/server"
+	"net/http"
 )
 
 var (
@@ -18,6 +18,20 @@ var (
 func init() {
 	log.SetFlags(log.Lshortfile | log.Lmicroseconds)
 }
+
+func serveHome(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.URL)
+	if r.URL.Path != "/" {
+		http.Error(w, "Not found", 404)
+		return
+	}
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", 405)
+		return
+	}
+	http.ServeFile(w, r, "home.html")
+}
+
 
 func main() {
 	flag.Parse()
@@ -33,7 +47,15 @@ func main() {
 	}
 
 	// Start new server
-	_, err := server.NewServer(peersMap, *nodeID)
+	paxos_server, err := server.NewServer(peersMap, *nodeID)
+	hub := newHub()
+	go hub.run()
+	http.HandleFunc("/", serveHome)
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		serveWs(hub, paxos_server, w, r)
+	})
+
+
 	if err != nil {
 		log.Fatalln("Server failed to start:", err)
 	}
