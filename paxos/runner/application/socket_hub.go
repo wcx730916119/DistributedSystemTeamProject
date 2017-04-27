@@ -1,7 +1,9 @@
 package main
 
+import "strconv"
+
 //import "strconv"
-//import "math/rand"
+import "math/rand"
 
 // hub maintains the set of active clients and broadcasts messages to the
 // clients.
@@ -45,8 +47,9 @@ func checkForChanges() string {
 }
 
 func (h *Hub) funcWithChanResult() {
-	//nonce := strconv.FormatInt(int64(rand.Intn(1000000)),10)
-	//addEdit(key,nonce)
+	// TODO: need to fix this, getting segv when doing the first getEdit
+	nonce := strconv.FormatInt(int64(rand.Intn(1000000)),10)
+	addEdit(key,nonce)
 	go func() {
 		for {
 			value := checkForChanges()

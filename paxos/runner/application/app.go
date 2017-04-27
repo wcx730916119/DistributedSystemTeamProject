@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	test_rajkiran = false
+	test_rajkiran = true
 	singleHub *Hub
 	key = "asdfasdf"
 	rpc_client      *rpc.Client
@@ -54,7 +54,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", 405)
 		return
 	}
-	http.ServeFile(w, r, "home.html")
+	http.ServeFile(w, r, "/Users/rajkiran/Projects/distributed/teamproject/DistributedSystemTeamProject/paxos/runner/application/home.html")
 }
 
 
