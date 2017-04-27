@@ -1,12 +1,13 @@
 package main
 
 import (
-	"bytes"
 	"log"
 	"net/http"
 	"time"
-	"../server"
+
 	"github.com/gorilla/websocket"
+
+	"fmt"
 )
 
 const (
@@ -21,11 +22,6 @@ const (
 
 	// Maximum message size allowed from peer.
 	maxMessageSize = 512
-)
-
-var (
-	newline = []byte{'\n'}
-	space   = []byte{' '}
 )
 
 var upgrader = websocket.Upgrader{
@@ -65,8 +61,10 @@ func (c *Client) readPump() {
 			}
 			break
 		}
-		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
 		c.hub.broadcast <- message
+		//When you read a message propose that message to all other paxos nodes
+		str := fmt.Sprintf("%s", message)
+		addEdit(key, str)
 	}
 }
 
@@ -101,7 +99,6 @@ func (c *Client) writePump() {
 			// Add queued chat messages to the current websocket message.
 			n := len(c.send)
 			for i := 0; i < n; i++ {
-				w.Write(newline)
 				w.Write(<-c.send)
 			}
 
@@ -118,7 +115,7 @@ func (c *Client) writePump() {
 }
 
 // serveWs handles websocket requests from the peer.
-func serveWs(hub *Hub, srv *server, w http.ResponseWriter, r *http.Request) {
+func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -127,7 +124,7 @@ func serveWs(hub *Hub, srv *server, w http.ResponseWriter, r *http.Request) {
 	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
 	client.hub.register <- client
 	//create a client which has one-one mapping with hub and using that client send messages to socket client
-	client.send
+	//client.send
 
 	go client.writePump()
 	client.readPump()

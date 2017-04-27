@@ -1,7 +1,15 @@
 package main
 
+//import "strconv"
+//import "math/rand"
+
 // hub maintains the set of active clients and broadcasts messages to the
 // clients.
+
+var (
+	last_message = ""
+)
+
 type Hub struct {
 	// Registered clients.
 	clients map[*Client]bool
@@ -25,7 +33,36 @@ func newHub() *Hub {
 	}
 }
 
+func checkForChanges() string {
+	new_message := getEdit(key)
+	if (new_message != last_message){
+		last_message = new_message
+		return new_message
+	} else {
+		return ""
+	}
+
+}
+
+func (h *Hub) funcWithChanResult() {
+	//nonce := strconv.FormatInt(int64(rand.Intn(1000000)),10)
+	//addEdit(key,nonce)
+	go func() {
+		for {
+			value := checkForChanges()
+			if( value != "") {
+				h.broadcast <- []byte(value)
+			}
+		}
+	}()
+
+}
+
+
 func (h *Hub) run() {
+	if (test_rajkiran) {
+		h.funcWithChanResult()
+	}
 	for {
 		select {
 		case client := <-h.register:
@@ -44,6 +81,7 @@ func (h *Hub) run() {
 					delete(h.clients, client)
 				}
 			}
+
 		}
 	}
 }
