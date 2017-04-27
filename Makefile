@@ -1,12 +1,12 @@
 .PHONY: build clean test package serve update-vendor api statics
 PKGS := $(shell go list ./... | grep -v /paxos/)
-GOOS ?= linux
+GOOS ?= darwin
 GOARCH ?= amd64
 
 app: statics
 	@echo "Compiling app for $(GOOS) $(GOARCH)"
 	@mkdir -p build
-	@GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/app$(BINEXT) paxos/runner/application/app.go
+	@GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/app$(BINEXT) paxos/runner/application/{app.go,socket_client.go,socket_hub.go}
 
 paxos: statics
 	@echo "Compiling paxos for $(GOOS) $(GOARCH)"
