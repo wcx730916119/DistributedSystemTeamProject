@@ -59,6 +59,7 @@ export default class ReactAce extends Component {
             commands,
             annotations,
             markers,
+
         } = this.props;
 
         this.editor = ace.edit(this.refEditor);
@@ -361,6 +362,6 @@ ReactAce.defaultProps = {
     setOptions: {},
     wrapEnabled: false,
     enableBasicAutocompletion: false,
-    enableLiveAutocompletion: false,
+    enableLiveAutocompletion: true,
 };
 

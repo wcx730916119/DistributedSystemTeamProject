@@ -8,7 +8,7 @@ import PeerListItem from "./PeerListItem";
 export default class PeerList extends Component {
     constructor(props) {
         super(props);
-        this.state = {peers: ["victor", "raj", "chenxi"]};
+        this.state = {peers: this.props.peers};
     }
 
     render() {

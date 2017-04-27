@@ -1,90 +1,174 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/src/index.css"/>
-    <meta charset="utf-8">
-    <meta name="description" content="Peer2Pair Programming Platform">
-    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
-    <meta itemprop="description" content="Client-side of Peer2Pair Programming Platform">
-    <meta itemprop="image" content="../src/logo.svg">
-    <meta itemprop="name" content="Peer2Pair Programming Platform">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta id="theme-color" name="theme-color" content="#ffffff">
-    <!--<base target="_blank">-->
-    <base target="_self">
-    <title>Peer2Pair Collaborative Programming Platform</title>
-    <link rel="icon" sizes="192x192" href="/src/logo.svg">
-    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap-theme.min.css">-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="index.css">
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png"/>
+    <link rel="icon" type="image/png" href="./assets/img/favicon.png"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <title>Dashboard</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
+    <meta name="viewport" content="width=device-width"/>
+
+    <!-- Bootstrap core CSS     -->
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!--  Dashboard CSS    -->
+    <link href="./assets/css/material-dashboard.css" rel="stylesheet"/>
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="./assets/css/demo.css" rel="stylesheet"/>
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'
+          type='text/css'>
 </head>
 
 <body>
-<!--<section id="container">-->
-<!--<div class="reg-form-container">-->
-<!--<label for="username-input">Username</label>-->
-<!--<input type="text" id="username-input" class="form-control">-->
-<!--<br>-->
-<!--<button id="connect-btn" class="btn btn-primary">Connect</button>-->
-<!--</div>-->
-<!--<ul id="messages"></ul>-->
 
-<!--</section>-->
-<!--<ul id="messages">-->
-<!--</ul>-->
-<!--<form action="">-->
-<!--<input id="m" autocomplete="off" /><button>Send</button>-->
-<!--</form>-->
-<nav class="navbar navbar-default p2p-single-line-nav-bar">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Peer2Pair Platform</a>
+<div class="wrapper">
+
+    <!--<div class="sidebar" data-color="blue" data-image="./assets/img/sidebar-1.jpg">-->
+    <div class="sidebar" data-color="red">
+        <div class="logo">
+            <a class="simple-text">
+                PEER2PAIR
+            </a>
         </div>
-        <!--<div class="collapse navbar-collapse navbar-primary" id="bs-example-navbar-collapse-1">-->
-        <!--<div class="nav navbar-nav">-->
-        <!--<button class="btn btn-success">3f2b1a</button>-->
-        <!--</div>-->
-        <!--</div>-->
+
+        <div class="sidebar-wrapper">
+            <div class="card card-stats">
+                <div class="card-header" data-background-color="blue">
+                    <i class="material-icons">chat</i>
+                </div>
+                <div class="card-content" id="widget-chat-box">
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>
     </div>
-</nav>
 
-<div class="container-fluid p2p-main-frame" id="content-wrapper">
-    <div class="row">
-        <div class="col-md-3 p2p-no-padding-widget" id="widget-chat-box">
-        </div>
-        <div class="col-md-9 p2p-no-padding-widget" id="widget-code-pad">
+    <div class="main-panel">
+        <nav class="navbar navbar-transparent navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">DASHBOARD</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">dashboard</i>
+                                <p class="hidden-lg hidden-md">Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">notifications</i>
+                                <span class="notification">2</span>
+                                <p class="hidden-lg hidden-md">Notifications</p>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Victor just came in</a></li>
+                                <li><a href="#">Raj leaved the room</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">person</i>
+                                <p class="hidden-lg hidden-md">Profile</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <form class="navbar-form navbar-right" role="search">
+                        <div class="form-group  is-empty">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <span class="material-input"></span>
+                        </div>
+                        <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                            <i class="material-icons">search</i>
+                            <div class="ripple-container"></div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header" data-background-color="blue" style="line-height: 100%">
+                            <ul>
+                                <i class="fa fa-code" aria-hidden="true" style="display: inline-block; font-size: 18px"></i>
+                                <li style="display: inline-block; float:right">
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">PYTHON 2<b class="caret"></b></a>
+                                        <!--<ul class="dropdown-menu">-->
+                                            <!--<li>PYTHON 2</li>-->
+                                            <!--<li>JAVA</li>-->
+                                        <!--</ul>-->
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-content" id="widget-code-editor">
+                        </div>
+                        <div class="card-footer">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+</body>
+
+<!--   Core JS Files   -->
+<script src="./assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>
+<script src="./assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="./assets/js/material.min.js" type="text/javascript"></script>
+
+<!--  Charts Plugin -->
+<script src="./assets/js/chartist.min.js"></script>
+
+<!--  Notifications Plugin    -->
+<script src="./assets/js/bootstrap-notify.js"></script>
+
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+<!-- Material Dashboard javascript methods -->
+<script src="./assets/js/material-dashboard.js"></script>
+
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="./assets/js/demo.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initDashboardPageCharts();
+
+    });
+</script>
+
 <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script
-        src="https://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"
-        type="text/javascript" charset="utf-8"></script>
-<!--<script type="text/jsx" src="../src/app.jsx"></script>-->
-<!--<script>
-    $(function () {
-        var socket = io('localhost:3001');
-        $('form').submit(function(){
-            socket.emit('chat message', $('#m').val());
-            $('#m').val('');
-            return false;
-        });
-        socket.on('chat message', function(msg){
-            console.log(msg);
-            $('#messages').append($('<li>').text(msg));
-        });
-    });
-</script>-->
-</body>
+
+
+
 </html>

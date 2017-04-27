@@ -15,7 +15,7 @@ class MessagesList extends Component {
         messages.push(message);
         this.setState({messages: messages});
         // let container = this.refs.messageContainer.getDOMNode();
-        // // Smart scrolling - when the user is
+        // // Smart scrolling - when the name is
         // // scrolled a little we don't want to return him back
         // if (container.scrollHeight -
         //     (container.scrollTop + container.offsetHeight) >= 50) {
