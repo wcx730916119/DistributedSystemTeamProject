@@ -7,7 +7,7 @@ import Avatar from "react-avatar";
 export default class ChatMessage extends Component {
     constructor(props) {
         super(props);
-        this.state = {user: props.message.user, message: props.message.text, self: props.self};
+        this.state = {name: props.message.name, message: props.message.text, self: props.self};
     }
 
     render() {
@@ -15,13 +15,13 @@ export default class ChatMessage extends Component {
         return (
             <div className="media float-left">
                 {this.state.self ? null : <div className="media-left media-top">
-                    <Avatar size="48px" name={this.state.user}/>
+                    <Avatar size="48px" name={this.state.name}/>
                 </div>}
                 <div className="media-body well well-sm">
                     <p>{this.state.message}</p>
                 </div>
                 {this.state.self ? <div className="media-left media-top">
-                    <Avatar size="48px" name={this.state.user}/>
+                    <Avatar size="48px" name={this.state.name}/>
                 </div> : null}
             </div>
         )

@@ -7,10 +7,10 @@ import "./VideoFrame.css";
 export default class VideoFrame extends Component {
     constructor(props) {
         super(props);
-        this.state = {src: 'abc'};
+        this.state = {src: 'abc', poster: ""};
     }
     render() {
         return (
-            <video ref="video" src={this.state.src} autoPlay/>)
+            <video ref="video" poster={this.state.poster} src={this.state.src} autoPlay/>)
     }
 }

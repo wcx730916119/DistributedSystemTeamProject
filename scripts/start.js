@@ -291,7 +291,7 @@ function run(port) {
     runDevServer(host, port, protocol);
 }
 
-// We attempt to use the default port but if it is busy, we offer the user to
+// We attempt to use the default port but if it is busy, we offer the name to
 // run on a different port. `detect()` Promise resolves to the next free port.
 detect(DEFAULT_PORT).then(port => {
     if (port === DEFAULT_PORT) {
@@ -321,16 +321,40 @@ detect(DEFAULT_PORT).then(port => {
 ////////////////////////////////////////////////////////////
 // additional server script added by chenxiw1
 ////////////////////////////////////////////////////////////
-
-// enable socket.io server
 let app = require('express')();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 let path = require('path');
 {
+    app.use(function (req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    });
+
+
     app.get('/', function (req, res) {
         res.send('无可奉告！');
     });
+
+
+    app.get('/code', function (req, res) {
+        const spawn = require('child_process').spawn;
+        const ls = spawn('python', ['-c', req.query.code]);
+        ls.stdout.on('data', (data) => {
+            console.log(data);
+            res.send(`stdout:\n ${data}`);
+        });
+
+        ls.stderr.on('data', (data) => {
+            res.send(`stderr:\n ${data}`);
+        });
+
+        ls.on('close', (code) => {
+            console.log(`child process exited with code ${code}`);
+        });
+    });
+
 
     io.on('connection', function (socket) {
         socket.on('chat message', function (msg) {
@@ -338,29 +362,24 @@ let path = require('path');
             io.emit('chat message', msg);
         });
     });
+
     http.listen(3001, function () {
-        console.log('listening on *:3001');
+        console.log('code service is running on port 3001');
     });
 }
 
 // enable peer server
-let PeerServer = require('peer').PeerServer,
-    Topics = require('../src/chat/ConnectionTopics.js');
+let PeerServer = require('peer').PeerServer;
+let ConnectionTopics = require('../src/chat/ConnectionTopics.js');
 let peerServer = new PeerServer({port: 9000});
 
 peerServer.on('connection', function (id) {
-    console.log('User connected with #', id);
-    io.emit(Topics.USER_CONNECTED, id);
-    console.log('User connected with #', id);
+    console.log('New Peer #', id, ' joined');
+    io.emit(ConnectionTopics.USER_CONNECTED, id);
 });
 
 peerServer.on('disconnect', function (id) {
-    console.log('User connected with #', id);
-    io.emit(Topics.USER_DISCONNECTED, id);
-    console.log('User disconnected with #', id);
+    console.log('Peer #', id, ' leaved');
+    io.emit(ConnectionTopics.USER_DISCONNECTED, id);
 });
-
-
-
-
 

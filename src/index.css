@@ -33,7 +33,6 @@ body, html {
     min-height: 21px;
     padding-left: 10px;
     margin: 3px;
-    font-family: consolas;
 }
 
 .message-author,
@@ -81,56 +80,3 @@ body, html {
     color: #000;
     font-size: 20px;
 }
-
-/*
-@import "App.css";
-
-body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    !*background-color: #0f0f0f;*!
-    !*font-family: "Calibri", "Roboto", sans-serif;*!
-}
-
-.p2p-main-widget {
-    !*padding: 40px 15px;*!
-    !*text-align: center;*!
-    !*border: 1px solid transparent;*!
-    !*border-radius: 4px;*!
-}
-.p2p-widget-scrollable {
-    !*max-height: 200px;*!
-    overflow-y: scroll;
-}
-#editor {
-    !*font-family: "Source Code Pro", monospace;*!
-    height: calc(100vh - 120px);
-    !*position: absolute;*!
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-#p2p-main-frame {
-    height: calc(100vh - 64px);
-}
-
-.p2p-no-padding-widget {
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.p2p-media-right {
-    text-align: right;
-}
-
-.p2p-single-line-nav-bar {
-    height: 64px;
-    line-height: 64px;
-    margin-bottom: 0;
-}
-*/

@@ -3,10 +3,15 @@ PKGS := $(shell go list ./... | grep -v /paxos/)
 GOOS ?= darwin
 GOARCH ?= amd64
 
-build: statics
-	@echo "Compiling source for $(GOOS) $(GOARCH)"
+app: statics
+	@echo "Compiling app for $(GOOS) $(GOARCH)"
 	@mkdir -p build
-	@GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/server$(BINEXT) paxos/runner/{socket_client.go,socket_hub.go,srunner.go}
+	@GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/app$(BINEXT) paxos/runner/application/app.go
+
+paxos: statics
+	@echo "Compiling paxos for $(GOOS) $(GOARCH)"
+	@mkdir -p build
+	@GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o build/paxos$(BINEXT) paxos/runner/paxosrunner/paxosrunner.go
 
 clean:
 	@echo "Cleaning up workspace"

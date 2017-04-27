@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/src/index.css"/>
+    <meta charset="utf-8">
+    <meta name="description" content="Peer2Pair Programming Platform">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+    <meta itemprop="description" content="Client-side of Peer2Pair Programming Platform">
+    <meta itemprop="image" content="../src/logo.svg">
+    <meta itemprop="name" content="Peer2Pair Programming Platform">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta id="theme-color" name="theme-color" content="#ffffff">
+    <!--<base target="_blank">-->
+    <base target="_self">
+    <title>Peer2Pair Collaborative Programming Platform</title>
+    <link rel="icon" sizes="192x192" href="/src/logo.svg">
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap-theme.min.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+<!--<section id="container">-->
+<!--<div class="reg-form-container">-->
+<!--<label for="username-input">Username</label>-->
+<!--<input type="text" id="username-input" class="form-control">-->
+<!--<br>-->
+<!--<button id="connect-btn" class="btn btn-primary">Connect</button>-->
+<!--</div>-->
+<!--<ul id="messages"></ul>-->
+
+<!--</section>-->
+<!--<ul id="messages">-->
+<!--</ul>-->
+<!--<form action="">-->
+<!--<input id="m" autocomplete="off" /><button>Send</button>-->
+<!--</form>-->
+<nav class="navbar navbar-default p2p-single-line-nav-bar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Peer2Pair Platform</a>
+        </div>
+        <!--<div class="collapse navbar-collapse navbar-primary" id="bs-example-navbar-collapse-1">-->
+        <!--<div class="nav navbar-nav">-->
+        <!--<button class="btn btn-success">3f2b1a</button>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+</nav>
+
+<div class="container-fluid p2p-main-frame" id="content-wrapper">
+    <div class="row">
+        <div class="col-md-3 p2p-no-padding-widget" id="widget-chat-box">
+        </div>
+        <div class="col-md-9 p2p-no-padding-widget" id="widget-code-pad">
+        </div>
+    </div>
+</div>
+
+<script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"
+        type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

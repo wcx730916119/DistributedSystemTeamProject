@@ -123,8 +123,8 @@ export default class ChatProxy extends EventEmitter {
      this.addListener(Topics.USER_DISCONNECTED, cb);
      };
 
-     this.prototype.send = function (user, message) {
-     this._peers[user].send(message);
+     this.prototype.send = function (name, message) {
+     this._peers[name].send(message);
      };
 
      this.prototype.broadcast = function (msg) {
