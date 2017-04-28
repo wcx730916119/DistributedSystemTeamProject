@@ -61,7 +61,9 @@ func (c *Client) readPump() {
 			}
 			break
 		}
-		c.hub.broadcast <- message
+		// need not broacast here; propose when you read and another thread is running 
+		// simultaneously to read edits and update itself
+		//c.hub.broadcast <- message
 		//When you read a message propose that message to all other paxos nodes
 		str := fmt.Sprintf("%s", message)
 		addEdit(key, str)
