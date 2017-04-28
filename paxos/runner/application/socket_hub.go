@@ -3,7 +3,10 @@ package main
 import "strconv"
 
 //import "strconv"
-import "math/rand"
+import (
+	"math/rand"
+	"fmt"
+)
 
 // hub maintains the set of active clients and broadcasts messages to the
 // clients.
@@ -37,7 +40,9 @@ func newHub() *Hub {
 
 func checkForChanges() string {
 	new_message := getEdit(key)
+	//fmt.Println(fmt.Sprint("getEdit output message", new_message));
 	if (new_message != last_message){
+		fmt.Println(fmt.Sprint("updating the last message from ", last_message, " to ", new_message));
 		last_message = new_message
 		return new_message
 	} else {

@@ -66,6 +66,7 @@ func (c *Client) readPump() {
 		//c.hub.broadcast <- message
 		//When you read a message propose that message to all other paxos nodes
 		str := fmt.Sprintf("%s", message)
+		fmt.Println(fmt.Sprint("received the message: ", str));
 		addEdit(key, str)
 	}
 }

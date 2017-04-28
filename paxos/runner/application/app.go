@@ -22,6 +22,7 @@ var (
 )
 
 func addEdit(session string, value string) error {
+	fmt.Println(fmt.Sprint("Proposing the message " , value));
 	proposalNumberArgs := &paxosrpc.ProposalNumberArgs{Key: session}
 	proposalNumberReply := new(paxosrpc.ProposalNumberReply)
 	if err := rpc_client.Call("PaxosNode.GetNextProposalNumber", proposalNumberArgs, proposalNumberReply); err != nil {
@@ -32,6 +33,9 @@ func addEdit(session string, value string) error {
 	proposalReply := new(paxosrpc.ProposeReply)
 	if err := rpc_client.Call("PaxosNode.Propose", proposalArgs, proposalReply); err != nil {
 		return err
+	}
+	if ( value != getEdit(key)){
+		fmt.Println("looks like the proposal didnt go through")
 	}
 
 	return nil
@@ -88,8 +92,9 @@ func main() {
 	fmt.Println("Server started. Paxos port="+*paxosport)
 
 	fmt.Println("Listen on port: " + *localport)
-	go singleHub.run()
+
 	if ( test_rajkiran == true ) {
+		go singleHub.run()
 		http.HandleFunc("/", serveHome)
 		http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 			serveWs(singleHub, w, r)
