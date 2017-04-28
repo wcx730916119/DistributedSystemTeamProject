@@ -9,6 +9,7 @@ RUN go get github.com/kisielk/errcheck
 RUN go get github.com/smartystreets/goconvey
 RUN go get golang.org/x/tools/cmd/stringer
 RUN go get github.com/jteeuwen/go-bindata/...
+RUN go get github.com/gorilla/websocket
 
 # grpc dependencies
 RUN apt-get update && apt-get install -y unzip
