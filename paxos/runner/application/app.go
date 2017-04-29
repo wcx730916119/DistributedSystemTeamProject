@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+
 	"net/http"
 	"net/rpc"
 	"fmt"
@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	test_rajkiran = false
+	test_rajkiran = true
 	singleHub *Hub
 	key = "asdfasdf"
 	rpc_client      *rpc.Client
@@ -35,10 +35,6 @@ func addEdit(session string, value string) error {
 	if err := rpc_client.Call("PaxosNode.Propose", proposalArgs, proposalReply); err != nil {
 		return err
 	}
-	if ( value != getEdit(key)){
-		fmt.Println("looks like the proposal didnt go through")
-	}
-
 	return nil
 }
 
@@ -69,7 +65,7 @@ type Update struct {
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	fmt.Println(path)
-	decoder := json.NewDecoder(r.Body)
+
 	if (path == "/testedit") {
 		fmt.Println("I am here")
 		nonce := strconv.FormatInt(int64(rand.Intn(1000000)),10)
@@ -79,18 +75,24 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 		edit := getEdit(key)
 		fmt.Fprint(w, edit);
 	} else if (path == "/update") {
-		var update Update;
-		err := decoder.Decode(&update)
-	    if err != nil {
-	        panic(err)
-	    }
-	    defer r.Body.Close()
+		switch r.Method {
+		case "POST":
+			// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
+			if err := r.ParseForm(); err != nil {
+				fmt.Fprintf(w, "Hello, POT method. ParseForm() err: %v", err)
+				return
+			}
 
-	    fmt.Println(update.Key)
-	    fmt.Println(update.Diff)
+			// Post form from website
+			fmt.Println( r.FormValue("key") )
+			fmt.Println(r.FormValue("diff"))
+		default:
+			fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
+		}
 	}
-
 }
+
+
 
 func main() {
 	flag.Parse()

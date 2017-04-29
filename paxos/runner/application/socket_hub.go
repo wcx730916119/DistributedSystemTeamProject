@@ -1,24 +1,12 @@
 package main
 
-import "strconv"
 
-//import "strconv"
 import (
-	"math/rand"
+
 	"fmt"
 	"net/http"
-	"encoding/json"
 )
 
-// hub maintains the set of active clients and broadcasts messages to the
-// clients.
-
-/*
-var (
-
-	last_message = ""
-)
-*/
 
 type Hub struct {
 	// Registered clients.
@@ -43,56 +31,28 @@ func newHub() *Hub {
 	}
 }
 
-/*
-func checkForChanges() string {
-	new_message := getEdit(key)
-	//fmt.Println(fmt.Sprint("getEdit output message", new_message));
-	if (new_message != last_message){
-		fmt.Println(fmt.Sprint("updating the last message from ", last_message, " to ", new_message));
-		last_message = new_message
-		return new_message
-	} else {
-		return ""
-	}
-
-}
-*/
-
-func (h *Hub) funcWithChanResult() {
-	// TODO: need to fix this, getting segv when doing the first getEdit
-	nonce := strconv.FormatInt(int64(rand.Intn(1000000)),10)
-	addEdit(key,nonce)
-	/*go func() {
-		for {
-			value := checkForChanges()
-			if( value != "") {
-				h.broadcast <- []byte(value)
-			}
-		}
-	}()*/
-
-}
 
 func updateEdits( w http.ResponseWriter, r *http.Request){
-	var update Update;
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&update)
-	if err != nil {
-		panic(err)
-	}
-	defer r.Body.Close()
-	fmt.Fprintln(w, update.Key)
-	fmt.Fprintln(w, update.Diff)
-	if( key == update.Key ){
-		fmt.Println("")
-		singleHub.broadcast <- []byte(update.Diff)
+	switch r.Method {
+	case "POST":
+		// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
+		if err := r.ParseForm(); err != nil {
+			fmt.Fprintf(w, "Hello, POT method. ParseForm() err: %v", err)
+			return
+		}
+
+		// Post form from website
+		if ( key == r.FormValue("key") ){
+			fmt.Println(r.FormValue("diff") )
+			singleHub.broadcast <- []byte(r.FormValue("diff"))
+		}
+	default:
+		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
 	}
 }
 
 func (h *Hub) run() {
-	if (test_rajkiran) {
-		h.funcWithChanResult()
-	}
+
 	for {
 		select {
 		case client := <-h.register:
