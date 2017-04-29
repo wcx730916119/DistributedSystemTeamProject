@@ -397,16 +397,17 @@ func (pn *paxosNode) RecvCommit(args *paxosrpc.CommitArgs, reply *paxosrpc.Commi
 		pn.debugPrint("Commit failed")
 		pn.ProposalState[args.Key] = state{N_a: 0, N_h: 0, My_n: 0}
 	} else {
-        /* Clean up N_a and V_a in case we get another proposal for the same key */
+        	//Clean up N_a and V_a in case we get another proposal for the same key
 		pn.debugPrint("Commit succeeded")
 		data.N_a = 0
 		data.V_a = nil
 		pn.ProposalState[args.Key] = data
-
+		/*
 		values := map[string]string{"key": args.Key, "diff": args.V.(string)}
 		jsonValue, _ := json.Marshal(values)
         	//fmt.Println( fmt.Sprint("making a post  message", args.V.(string)))
         	//fmt.Println( fmt.Sprint(pn.client,"/update"))
+        	*/
 		pn.postDiffToClient(args)
 		//http.Post(pn.client + "/update", "application/json", bytes.NewBuffer(jsonValue))
 	}
