@@ -68,6 +68,7 @@ type Update struct {
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
+	fmt.Println(path)
 	decoder := json.NewDecoder(r.Body)
 	if (path == "/testedit") {
 		fmt.Println("I am here")

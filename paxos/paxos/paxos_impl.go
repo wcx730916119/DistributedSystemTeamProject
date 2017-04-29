@@ -12,6 +12,7 @@ import (
     "encoding/json"
     "strconv"
     "bytes"
+	"net/url"
 )
 
 /* Node specific information */
@@ -404,11 +405,31 @@ func (pn *paxosNode) RecvCommit(args *paxosrpc.CommitArgs, reply *paxosrpc.Commi
 
 		values := map[string]string{"key": args.Key, "diff": args.V.(string)}
 		jsonValue, _ := json.Marshal(values)
-        fmt.Println( fmt.Sprint("making a post  message", args.V.(string)))
-        fmt.Println( fmt.Sprint(pn.client,"/update"))
-		http.Post(pn.client + "/update", "application/json", bytes.NewBuffer(jsonValue))
+        	//fmt.Println( fmt.Sprint("making a post  message", args.V.(string)))
+        	//fmt.Println( fmt.Sprint(pn.client,"/update"))
+		pn.postDiffToClient(args)
+		//http.Post(pn.client + "/update", "application/json", bytes.NewBuffer(jsonValue))
 	}
 	return nil
+}
+
+func (pn *paxosNode) postDiffToClient( args *paxosrpc.CommitArgs ){
+	fmt.Println("I am trying to post something")
+	apiUrl := pn.client
+	resource := "/update"
+	data := url.Values{}
+	data.Set("key", args.Key)
+	data.Add("diff", args.V.(string))
+	u, _ := url.ParseRequestURI(apiUrl)
+	u.Path = resource
+	urlStr := fmt.Sprintf("%v", u) // "https://api.com/user/"
+	client := &http.Client{}
+	r, _ := http.NewRequest("POST", urlStr, bytes.NewBufferString(data.Encode())) // <-- URL-encoded payload
+	r.Header.Add("Authorization", "auth_token=\"XXXXXXX\"")
+	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	r.Header.Add("Content-Length", strconv.Itoa(len(data.Encode())))
+	resp, _ := client.Do(r)
+	fmt.Println(resp.Status)
 }
 
 func (pn *paxosNode) RecvReplaceServer(args *paxosrpc.ReplaceServerArgs, reply *paxosrpc.ReplaceServerReply) error {
