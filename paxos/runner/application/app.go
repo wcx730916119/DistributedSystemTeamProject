@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/rpc"
 	"fmt"
@@ -61,10 +62,13 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "/Users/rajkiran/Projects/distributed/teamproject/DistributedSystemTeamProject/paxos/runner/application/home.html")
 }
 
+type Update struct {
+	Key, Diff string
+}
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
-	//query := r.URL.RawQuery
+	decoder := json.NewDecoder(r.Body)
 	if (path == "/testedit") {
 		fmt.Println("I am here")
 		nonce := strconv.FormatInt(int64(rand.Intn(1000000)),10)
@@ -73,6 +77,16 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	} else if (path == "/getedit") {
 		edit := getEdit(key)
 		fmt.Fprint(w, edit);
+	} else if (path == "/update") {
+		var update Update;
+		err := decoder.Decode(&update)
+	    if err != nil {
+	        panic(err)
+	    }
+	    defer r.Body.Close()
+
+	    fmt.Fprintln(w, update.Key)
+	    fmt.Fprintln(w, update.Diff)
 	}
 
 }
