@@ -13,6 +13,7 @@ var (
 	numNodes   = flag.Int("N", 1, "the number of nodes in the ring")
 	nodeID     = flag.Int("id", 0, "node ID must match index of this node's port in the ports list")
 	numRetries = flag.Int("retries", 5, "number of times a node should retry dialing another node")
+	client     = flag.String("client", "", "port for the client")
 )
 
 func init() {
@@ -30,7 +31,9 @@ func main() {
 		hostMap[i] = "localhost:" + port
 	}
 
-	_, err := paxos.NewPaxosNode(hostMap[*nodeID], hostMap, *numNodes, *nodeID, *numRetries, false)
+	clientIP := "localhost:" + *client
+
+	_, err := paxos.NewPaxosNode(hostMap[*nodeID], hostMap, *numNodes, *nodeID, *numRetries, false, clientIP)
 	if err != nil {
 		log.Fatalln("Failed to create paxos node:", err)
 	}

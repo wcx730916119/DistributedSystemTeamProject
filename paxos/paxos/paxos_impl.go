@@ -11,6 +11,7 @@ import (
 	"time"
     "encoding/json"
     "strconv"
+    "bytes"
 )
 
 /* Node specific information */
@@ -35,6 +36,8 @@ type paxosNode struct {
     
     /* Mutex to synchronize access to above maps */
 	Lock                sync.Mutex
+
+	client string
 }
 
 /* Node state for each key */
@@ -72,7 +75,7 @@ func (pn *paxosNode) debugPrint(a ...interface{}) {
 // numNodes: number of nodes in the ring
 // numRetries: number of retries to connect to each node
 // replace: flag for if it is a replacement node for a failed node
-func NewPaxosNode(myHostPort string, hostMap map[int]string, numNodes, srvId, numRetries int, replace bool) (PaxosNode, error) {
+func NewPaxosNode(myHostPort string, hostMap map[int]string, numNodes, srvId, numRetries int, replace bool, client string) (PaxosNode, error) {
 	
 	node := paxosNode{HostMap: make(map[string]string), ServerID: srvId, ConnectionMap: make(map[string]*rpc.Client),
 		ConnectNodesChannel: make(chan bool), ProposalState: make(map[string]state),
@@ -91,6 +94,8 @@ func NewPaxosNode(myHostPort string, hostMap map[int]string, numNodes, srvId, nu
 	}
 	go http.Serve(l, nil)
     
+	node.client = client
+
     if replace {
         node.debugPrint("replace", myHostPort)
         replaceServerChannel := make(chan bool)
@@ -396,6 +401,10 @@ func (pn *paxosNode) RecvCommit(args *paxosrpc.CommitArgs, reply *paxosrpc.Commi
 		data.N_a = 0
 		data.V_a = nil
 		pn.ProposalState[args.Key] = data
+
+		values := map[string]string{"key": args.Key, "diff": args.V.(string)}
+		jsonValue, _ := json.Marshal(values)
+		http.Post(pn.client + "/update", "application/json", bytes.NewBuffer(jsonValue))
 	}
 	return nil
 }
