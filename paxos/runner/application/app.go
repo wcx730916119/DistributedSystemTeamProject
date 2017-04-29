@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	test_rajkiran = true
+	test_rajkiran = false
 	singleHub *Hub
 	key = "asdfasdf"
 	rpc_client      *rpc.Client
@@ -85,8 +85,8 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	    }
 	    defer r.Body.Close()
 
-	    fmt.Fprintln(w, update.Key)
-	    fmt.Fprintln(w, update.Diff)
+	    fmt.Println(update.Key)
+	    fmt.Println(update.Diff)
 	}
 
 }
@@ -113,6 +113,7 @@ func main() {
 		http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 			serveWs(singleHub, w, r)
 		})
+		http.HandleFunc("/update", updateEdits )
 	} else {
 		http.HandleFunc("/", defaultHandler)
 	}

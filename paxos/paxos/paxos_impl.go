@@ -404,6 +404,8 @@ func (pn *paxosNode) RecvCommit(args *paxosrpc.CommitArgs, reply *paxosrpc.Commi
 
 		values := map[string]string{"key": args.Key, "diff": args.V.(string)}
 		jsonValue, _ := json.Marshal(values)
+        fmt.Println( fmt.Sprint("making a post  message", args.V.(string)))
+        fmt.Println( fmt.Sprint(pn.client,"/update"))
 		http.Post(pn.client + "/update", "application/json", bytes.NewBuffer(jsonValue))
 	}
 	return nil

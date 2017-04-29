@@ -6,14 +6,19 @@ import "strconv"
 import (
 	"math/rand"
 	"fmt"
+	"net/http"
+	"encoding/json"
 )
 
 // hub maintains the set of active clients and broadcasts messages to the
 // clients.
 
+/*
 var (
+
 	last_message = ""
 )
+*/
 
 type Hub struct {
 	// Registered clients.
@@ -38,6 +43,7 @@ func newHub() *Hub {
 	}
 }
 
+/*
 func checkForChanges() string {
 	new_message := getEdit(key)
 	//fmt.Println(fmt.Sprint("getEdit output message", new_message));
@@ -50,22 +56,38 @@ func checkForChanges() string {
 	}
 
 }
+*/
 
 func (h *Hub) funcWithChanResult() {
 	// TODO: need to fix this, getting segv when doing the first getEdit
 	nonce := strconv.FormatInt(int64(rand.Intn(1000000)),10)
 	addEdit(key,nonce)
-	go func() {
+	/*go func() {
 		for {
 			value := checkForChanges()
 			if( value != "") {
 				h.broadcast <- []byte(value)
 			}
 		}
-	}()
+	}()*/
 
 }
 
+func updateEdits( w http.ResponseWriter, r *http.Request){
+	var update Update;
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&update)
+	if err != nil {
+		panic(err)
+	}
+	defer r.Body.Close()
+	fmt.Fprintln(w, update.Key)
+	fmt.Fprintln(w, update.Diff)
+	if( key == update.Key ){
+		fmt.Println("")
+		singleHub.broadcast <- []byte(update.Diff)
+	}
+}
 
 func (h *Hub) run() {
 	if (test_rajkiran) {

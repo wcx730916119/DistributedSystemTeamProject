@@ -1,6 +1,6 @@
 .PHONY: build clean test package serve update-vendor api statics
 PKGS := $(shell go list ./... | grep -v /paxos/)
-GOOS ?= linux
+GOOS ?= darwin 
 GOARCH ?= amd64
 
 app: statics
