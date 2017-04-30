@@ -371,7 +371,7 @@ let path = require('path');
 // enable peer server
 let PeerServer = require('peer').PeerServer;
 let ConnectionTopics = require('../src/chat/ConnectionTopics.js');
-let peerServer = new PeerServer({port: 9000});
+let peerServer = new PeerServer({port: 9001});
 
 peerServer.on('connection', function (id) {
     console.log('New Peer #', id, ' joined');
