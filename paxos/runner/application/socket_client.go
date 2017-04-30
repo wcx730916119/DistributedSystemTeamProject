@@ -27,6 +27,9 @@ const (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
 }
 
 // Client is a middleman between the websocket connection and the hub.
@@ -52,7 +55,10 @@ func (c *Client) readPump() {
 	}()
 	c.conn.SetReadLimit(maxMessageSize)
 	c.conn.SetReadDeadline(time.Now().Add(pongWait))
-	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
+	c.conn.SetPongHandler(func(string) error {
+		c.conn.SetReadDeadline(time.Now().Add(pongWait))
+		return nil
+	})
 	for {
 		_, message, err := c.conn.ReadMessage()
 		if err != nil {
@@ -61,16 +67,15 @@ func (c *Client) readPump() {
 			}
 			break
 		}
-		// need not broacast here; propose when you read and another thread is running 
+		// need not broacast here; propose when you read and another thread is running
 		// simultaneously to read edits and update itself
 		//c.hub.broadcast <- message
 		//When you read a message propose that message to all other paxos nodes
 		str := fmt.Sprintf("%s", message)
-		fmt.Println(fmt.Sprint("received the message: ", str));
+		fmt.Println(fmt.Sprint("received the message: ", str))
 		addEdit(key, str)
 	}
 }
-
 
 // writePump pumps messages from the hub to the websocket connection.
 //
@@ -132,4 +137,3 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	go client.writePump()
 	client.readPump()
 }
-
