@@ -7,7 +7,6 @@ export default class SyncProxy extends EventEmitter {
     constructor(props) {
         super(props);
         let self = this;
-        this._peers = {};
         this.name = props.name;
         console.log('peer_name:', this.name);
         this.peer = new Peer(this.name, {host: 'localhost', port: 9001});
@@ -74,41 +73,4 @@ export default class SyncProxy extends EventEmitter {
         });
         window.exsistingCall = call;
     }
-
-    // Click handlers setup
-    // $(function () {
-    //     $('#make-call').click(function () {
-    //         // Initiate a call!
-    //         var call = peer.call($('#callto-id').val(), window.localStream);
-    //         step3(call);
-    //     });
-    //     $('#end-call').click(function () {
-    //         window.existingCall.close();
-    //         step2();
-    //     });
-    //     // Retry if getUserMedia fails
-    //     $('#step1-retry').click(function () {
-    //         $('#step1-error').hide();
-    //         step1();
-    //     });
-    //     // Get things started
-    //     step1();
-    // });
-    // function step1() {
-    //     // Get audio/video stream
-    //     navigator.getUserMedia({audio: true, video: true}, function (stream) {
-    //         // Set your video displays
-    //         $('#my-video').prop('src', URL.createObjectURL(stream));
-    //         window.localStream = stream;
-    //         step2();
-    //     }, function () {
-    //         $('#step1-error').show();
-    //     });
-    // }
-    //
-    // function step2() {
-    //     $('#step1, #step3').hide();
-    //     $('#step2').show();
-    // }
-    //
 }

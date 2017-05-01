@@ -14,3 +14,8 @@ ReactDOM.render(
     <CodeEditor />,
     document.getElementById('widget-code-editor')
 );
+
+let dmp = require("./creatediff");
+window.dmp = new dmp();
+
+window.localAppName = Math.random().toString(4).substring(6, 15);

@@ -19,8 +19,7 @@ export default class ChatBox extends Component {
         this.setName = this.setName.bind(this);
         this.nameKeyHandler = this.nameKeyHandler.bind(this);
 
-
-        console.log('onComponentDidMount');
+        /*
         let self = this;
         if (window["WebSocket"]) {
             this.conn = new WebSocket("ws://localhost:8080/ws");
@@ -36,7 +35,7 @@ export default class ChatBox extends Component {
         } else {
             this.addMessages({user: 'UNK', text: 'unsupported'});
         }
-
+         */
     }
 
     connectNewPeer(e) {

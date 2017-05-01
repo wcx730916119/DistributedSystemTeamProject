@@ -14,9 +14,9 @@ import (
 var (
 	test_rajkiran = true
 	singleHub     *Hub
-	key = "asdfasdf"
+	key = "code"
 	rpc_client    *rpc.Client
-	paxosport = flag.String("paxosport", "", "port of the specified paxos node")
+	paxosport = flag.String("paxosport", "8000", "port of the specified paxos node")
 	localport = flag.String("port", "8080", "port to run the local server")
 )
 
@@ -53,7 +53,8 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", 405)
 		return
 	}
-	http.ServeFile(w, r, "/Users/rajkiran/Projects/distributed/teamproject/DistributedSystemTeamProject/paxos/runner/application/home.html")
+	//http.ServeFile(w, r, "/Users/rajkiran/Projects/distributed/teamproject/DistributedSystemTeamProject/paxos/runner/application/home.html")
+	http.ServeFile(w, r, "/home/chenxi/WebstormProjects/DistributedSystemTeamProject/paxos/runner/application/home.html")
 }
 
 type Update struct {
