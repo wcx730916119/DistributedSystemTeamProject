@@ -52,7 +52,6 @@ func updateEdits( w http.ResponseWriter, r *http.Request){
 }
 
 func (h *Hub) run() {
-
 	for {
 		select {
 		case client := <-h.register:

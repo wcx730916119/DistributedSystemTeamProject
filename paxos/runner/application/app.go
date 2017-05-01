@@ -54,7 +54,8 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//http.ServeFile(w, r, "/Users/rajkiran/Projects/distributed/teamproject/DistributedSystemTeamProject/paxos/runner/application/home.html")
-	http.ServeFile(w, r, "/home/chenxi/WebstormProjects/DistributedSystemTeamProject/paxos/runner/application/home.html")
+	//http.ServeFile(w, r, "/home/chenxi/WebstormProjects/DistributedSystemTeamProject/paxos/runner/application/home.html")
+	http.ServeFile(w, r, "./paxos/runner/application/home.html")
 }
 
 type Update struct {
