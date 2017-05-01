@@ -55,7 +55,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", 405)
 		return
 	}
-	http.ServeFile(w, r, "/Users/rajkiran/Projects/distributed/teamproject/DistributedSystemTeamProject/paxos/runner/application/home.html")
+	http.ServeFile(w, r, "./paxos/runner/application/home.html")
 }
 
 type Update struct {
