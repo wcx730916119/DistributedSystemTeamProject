@@ -3,11 +3,10 @@
  */
 import React, {Component} from "react";
 import "./VideoFrame.css";
-// import "./ChatBox.css";
 export default class VideoFrame extends Component {
     constructor(props) {
         super(props);
-        this.state = {src: 'abc', poster: ""};
+        this.state = {src: null, poster: null};
     }
     render() {
         return (

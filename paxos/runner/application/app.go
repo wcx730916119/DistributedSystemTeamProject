@@ -1,29 +1,27 @@
 package main
 
 import (
-
+	"flag"
+	"fmt"
+	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/rpc/paxosrpc"
 	"net/http"
 	"net/rpc"
-	"fmt"
 	"strconv"
-	"flag"
-	"github.com/wcx730916119/DistributedSystemTeamProject/paxos/rpc/paxosrpc"
-
-	"math/rand"
 	"log"
+	"math/rand"
 )
 
 var (
 	test_rajkiran = true
-	singleHub *Hub
+	singleHub     *Hub
 	key = "asdfasdf"
-	rpc_client      *rpc.Client
+	rpc_client    *rpc.Client
 	paxosport = flag.String("paxosport", "", "port of the specified paxos node")
-	localport = flag.String("port", "8080", "port to run the local server") 
+	localport = flag.String("port", "8080", "port to run the local server")
 )
 
 func addEdit(session string, value string) error {
-	fmt.Println(fmt.Sprint("Proposing the message " , value));
+	fmt.Println(fmt.Sprint("Proposing the message ", value))
 	proposalNumberArgs := &paxosrpc.ProposalNumberArgs{Key: session}
 	proposalNumberReply := new(paxosrpc.ProposalNumberReply)
 	if err := rpc_client.Call("PaxosNode.GetNextProposalNumber", proposalNumberArgs, proposalNumberReply); err != nil {
@@ -66,15 +64,15 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	fmt.Println(path)
 
-	if (path == "/testedit") {
+	if path == "/testedit" {
 		fmt.Println("I am here")
-		nonce := strconv.FormatInt(int64(rand.Intn(1000000)),10)
+		nonce := strconv.FormatInt(int64(rand.Intn(1000000)), 10)
 		addEdit(key, nonce)
-		fmt.Fprint(w, nonce);
-	} else if (path == "/getedit") {
+		fmt.Fprint(w, nonce)
+	} else if path == "/getedit" {
 		edit := getEdit(key)
-		fmt.Fprint(w, edit);
-	} else if (path == "/update") {
+		fmt.Fprint(w, edit)
+	} else if path == "/update" {
 		switch r.Method {
 		case "POST":
 			// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
@@ -84,15 +82,13 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 			}
 
 			// Post form from website
-			fmt.Println( r.FormValue("key") )
+			fmt.Println(r.FormValue("key"))
 			fmt.Println(r.FormValue("diff"))
 		default:
-			fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
+			fmt.Fprint(w, "Sorry, only GET and POST methods are supported.")
 		}
 	}
 }
-
-
 
 func main() {
 	flag.Parse()
@@ -106,17 +102,17 @@ func main() {
 		}
 	}
 
-	fmt.Println("Server started. Paxos port="+*paxosport)
+	fmt.Println("Server started. Paxos port=" + *paxosport)
 
 	fmt.Println("Listen on port: " + *localport)
 
-	if ( test_rajkiran == true ) {
+	if test_rajkiran == true {
 		go singleHub.run()
 		http.HandleFunc("/", serveHome)
 		http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 			serveWs(singleHub, w, r)
 		})
-		http.HandleFunc("/update", updateEdits )
+		http.HandleFunc("/update", updateEdits)
 	} else {
 		http.HandleFunc("/", defaultHandler)
 	}

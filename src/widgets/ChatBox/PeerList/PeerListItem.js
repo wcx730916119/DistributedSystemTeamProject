@@ -27,6 +27,11 @@ export default class PeerListItem extends Component {
             <li className="list-group-item" onMouseOut={self.onMouseOut} onMouseOver={self.onMouseOver}>
                 <Avatar ref="avatar" size="32px" name={this.state.name}/>
                 {this.state.visible ? this.state.name : null}
+                <button type="button" rel="tooltip" title="" className="btn btn-primary btn-simple btn-xs"
+                        data-original-title="Edit Task">
+                    <i className="material-icons">edit</i>
+                    <div className="ripple-container"/>
+                </button>
             </li>)
     }
 }
