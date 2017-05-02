@@ -1,14 +1,13 @@
-.list-group-horizontal {
+.chatbox-peer-list .list-group-horizontal {
     margin: 4px;
     padding-left: 1px;
 }
 
-.list-group-horizontal .list-group-item {
+.chatbox-peer-list .list-group-horizontal .list-group-item {
     display: inline-block;
-
 }
 
-.list-group-horizontal .list-group-item {
+.chatbox-peer-list .list-group-horizontal .list-group-item {
     margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
@@ -16,13 +15,18 @@
     border-right-width: 0;
 }
 
-.list-group-horizontal .list-group-item:first-child {
+.chatbox-peer-list .list-group-horizontal .list-group-item:first-child {
     border-top-right-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.list-group-horizontal .list-group-item:last-child {
+.chatbox-peer-list .list-group-horizontal .list-group-item:last-child {
     border-top-right-radius: 0;
     border-bottom-left-radius: 0;
     border-right-width: 1px;
+}
+
+.chatbox-peer-list p {
+    height: 24px;
+    margin: 4px;
 }

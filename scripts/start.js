@@ -370,16 +370,15 @@ let path = require('path');
 
 // enable peer server
 let PeerServer = require('peer').PeerServer;
-let ConnectionTopics = require('../src/chat/ConnectionTopics.js');
 let peerServer = new PeerServer({port: 9001});
 
 peerServer.on('connection', function (id) {
     console.log('New Peer #', id, ' joined');
-    io.emit(ConnectionTopics.USER_CONNECTED, id);
+    io.emit('user-connected', id);
 });
 
 peerServer.on('disconnect', function (id) {
     console.log('Peer #', id, ' leaved');
-    io.emit(ConnectionTopics.USER_DISCONNECTED, id);
+    io.emit('user-disconnected', id);
 });
 

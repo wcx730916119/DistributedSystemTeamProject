@@ -98,7 +98,7 @@ func main() {
 
 	var err error
 	for {
-		rpc_client, err = rpc.DialHTTP("tcp", "localhost:"+*paxosport)
+		rpc_client, err = rpc.DialHTTP("tcp", *paxosport)
 		if err == nil {
 			break
 		}

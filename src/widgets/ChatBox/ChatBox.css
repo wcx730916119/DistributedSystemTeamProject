@@ -1,7 +1,3 @@
-.panel-body {
-}
-
-
 .input-group {
     padding: 0;
     margin: 0;
@@ -13,4 +9,12 @@
 
 .video-wrapper {
     margin: 10px -20px;
+}
+
+.chatbox-name-setter {
+    height: 50px;
+}
+
+.form-group {
+    margin-bottom: 0;
 }
