@@ -39,10 +39,7 @@ export default class CodeEditor extends Component {
 
     applyPatch(patchText) {
         let patchJson = JSON.parse(patchText);
-        console.log('applying patch', patchJson);
         let code = window.dmp.applyPatch(this.state.code, patchJson.data);
-        console.log(this.state.code, patchJson.data);
-        console.log(code);
         this.setState({'code': code});
         this.setCodeWithoutCallback(code);
     }
@@ -67,7 +64,11 @@ export default class CodeEditor extends Component {
 
     setCodeWithoutCallback(code) {
         this.ref_editor.silent = true;
+        let pos = this.ref_editor.editor.getCursorPosition();
         this.setCode(code);
+        pos.column += 1;
+        console.log(pos);
+        this.ref_editor.editor.moveCursorToPosition(pos);
         this.ref_editor.silent = false;
     }
 
