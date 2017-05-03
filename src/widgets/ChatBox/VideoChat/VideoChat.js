@@ -9,8 +9,6 @@ export default class VideoChatComponent extends Component {
         super(props);
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         this.state = {src: null, poster: null, focus: null, ready: false};
-
-
     }
 
     init(name) {
@@ -22,15 +20,18 @@ export default class VideoChatComponent extends Component {
     }
 
     componentDidMount() {
-        // this.video = document.querySelector('video');
+        this.video = document.querySelector('video');
     }
 
     setVideoStreamByName(name) {
         this.client.getVideoStreamByName(name);
     }
 
-    onSrcChange(url) {
-        this.setState({src: url})
+    onSrcChange(stream) {
+        console.log(stream);
+        this.video.srcObject = stream;
+        // this.setState({src: URL.createObjectURL(stream)})
+        console.log(this.video.srcObject);
     }
 
 

@@ -7,7 +7,8 @@ export default class ChatProxyModule extends EventEmitter {
         this.onSrcChange = props.onSrcChange;
         this.data = {};
         // this.createLocalStream();
-        this.peer = new Peer(this.name, {host: 'localhost', port: 9001});
+        this.peer = new Peer(this.name, {host: 'ec2-54-183-177-160.us-west-1.compute.amazonaws.com', port: 9001});
+        console.log(this.peer);
         this.peer.on('open', function () {
             console.log('peer.open');
         });
@@ -16,22 +17,26 @@ export default class ChatProxyModule extends EventEmitter {
         });
 
         this.peer.on('call', function (call) {
-            call.answer(this.localStream);
+            console.log('peer.oncall');
+            call.answer(this.data.localStream);
+            this.registerCall(call.peer, call);
         }.bind(this));
 
         this.peer.on('error', function (err) {
             alert(err.message);
         });
-
     }
 
     createLocalStream() {
         // get local stream
-        navigator.getUserMedia({audio: true, video: true}, function (stream) {
-            // Set your video displays
+        navigator.getUserMedia({audio: true, video: {width: 270, height: 189}}, function (stream) {
+            // set video displays
             this.data.localStream = stream;
-            this.data.localStreamURL = URL.createObjectURL(stream);
-            this.onSrcChange(this.data.localStreamURL);
+            // this.data.localStreamURL = URL.createObjectURL(stream);
+            this.onSrcChange(stream);
+            console.log('local');
+            console.log(stream);
+
         }.bind(this), function () {
             console.error('failed to create local stream');
         });
@@ -61,11 +66,20 @@ export default class ChatProxyModule extends EventEmitter {
 
     call(peerName) {
         let call = this.peer.call(peerName, this.data.localStream);
-        // Wait for stream on the call, then set peer video display
+        this.registerCall(peerName, call);
+    }
+
+    registerCall(peerName, call) {
+        console.log("register call " + peerName);
+        if (!this.data[peerName]) {
+            this.data[peerName] = {};
+        }
         this.data[peerName].call = call;
-        call.on('stream', function (stream) {
-            this.data.peer.stream = URL.createObjectURL(stream);
-            this.onSrcChange(this.data.peer.stream);
+        // Wait for stream on the call, then set peer video display
+        this.data[peerName].call.on('stream', function (stream) {
+            console.log('on call stream');
+            this.data[peerName].stream = stream;
+            this.onSrcChange(stream);
         }.bind(this));
     }
 

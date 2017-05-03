@@ -369,16 +369,16 @@ let path = require('path');
 }
 
 // enable peer server
-let PeerServer = require('peer').PeerServer;
-let peerServer = new PeerServer({port: 9001});
-
-peerServer.on('connection', function (id) {
-    console.log('New Peer #', id, ' joined');
-    io.emit('user-connected', id);
-});
-
-peerServer.on('disconnect', function (id) {
-    console.log('Peer #', id, ' leaved');
-    io.emit('user-disconnected', id);
-});
+// let PeerServer = require('peer').PeerServer;
+// let peerServer = new PeerServer({port: 9001});
+//
+// peerServer.on('connection', function (id) {
+//     console.log('New Peer #', id, ' joined');
+//     io.emit('user-connected', id);
+// });
+//
+// peerServer.on('disconnect', function (id) {
+//     console.log('Peer #', id, ' leaved');
+//     io.emit('user-disconnected', id);
+// });
 
