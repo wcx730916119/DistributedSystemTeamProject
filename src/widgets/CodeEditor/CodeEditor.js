@@ -13,6 +13,7 @@ import axios from "axios";
 export default class CodeEditor extends Component {
     constructor(props) {
         super(props);
+        this.id = 0;
         this.state = {output: '', code: "print 'hello world'"};
         this.codeEditor = <AceEditor
             ref={(editor) => {
@@ -41,7 +42,13 @@ export default class CodeEditor extends Component {
         let patchJson = JSON.parse(patchText);
         let code = window.dmp.applyPatch(this.state.code, patchJson.data);
         this.setState({'code': code});
+        console.log(this.ref_editor.editor.getCursorPosition());
         this.setCodeWithoutCallback(code);
+        // if (patchJson.id === this.id) {
+        //     console.log("local");
+        //     console.log(patchJson.cursor);
+        //     this.ref_editor.editor.moveCursorToPosition(patchJson.cursor);
+        // }
     }
 
     submitPatch(patchText) {
@@ -55,20 +62,23 @@ export default class CodeEditor extends Component {
         console.log(this.state.code, newValue);
         if (this.state.code !== newValue) {
             let patch = window.dmp.createDiffAndPatch(this.state.code, newValue);
+            let d = JSON.stringify({
+                'data': patch,
+                'id': this.id,
+                'cursor': this.ref_editor.editor.getCursorPosition()
+            });
+            console.log(d);
             this.setCodeWithoutCallback(this.state.code);
-            let d = JSON.stringify({'data': patch});
-            console.log(patch, d);
             this.submitPatch(d);
         }
     }
 
     setCodeWithoutCallback(code) {
         this.ref_editor.silent = true;
-        let pos = this.ref_editor.editor.getCursorPosition();
+        // let pos = this.ref_editor.editor.getCursorPosition();
         this.setCode(code);
-        pos.column += 1;
-        console.log(pos);
-        this.ref_editor.editor.moveCursorToPosition(pos);
+        // pos.column += 1;
+        // this.ref_editor.editor.moveCursorToPosition(pos);
         this.ref_editor.silent = false;
     }
 

@@ -39,7 +39,7 @@ export default class ChatBox extends Component {
         if (this.debug) {
             // this.addPeer("UTX");
             // this.addPeer("ABC");
-            // this.addMessage({name: 'X', text: 'OK'});
+            this.addMessage({name: 'S', text: 'Welcome'});
             // this.quickSetup()
         }
     }
@@ -73,7 +73,8 @@ export default class ChatBox extends Component {
     submitMessage() {
         let text = document.getElementById('btn-input');
         if (text.length !== 0) {
-            if (this.conn !== null) this.conn.send(JSON.stringify({user: this.state.name, text: text.value}));
+            this.addMessage({name: this.state.name, text: text.value});
+            // if (this.conn !== null) this.conn.send(JSON.stringify({user: this.state.name, text: text.value}));
             text.value = null;
         }
     }
@@ -130,7 +131,7 @@ export default class ChatBox extends Component {
                 <div className="panel-body clearfix">
                     {this.state.messages.map(function (message, idx) {
                         return <ChatMessage key={idx} message={message}
-                                            self={self.state.name === message.user}/>
+                                            self={self.state.name === message.name}/>
                     })}
                 </div>
                 <div className="input-group">
@@ -138,7 +139,7 @@ export default class ChatBox extends Component {
                            placeholder="TYPE YOUR MESSAGE HERE"/>
                     <span className="input-group-btn">
                                 <button className="btn btn-success btn-sm input-group-btn-fix" id="btn-chat"
-                                        onClick={this.submitMessage}>
+                                        onClick={this.submitMessage.bind(this)}>
                                     <i className="material-icons">send</i>
                                 </button>
                             </span>
