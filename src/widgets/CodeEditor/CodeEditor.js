@@ -75,10 +75,10 @@ export default class CodeEditor extends Component {
 
     setCodeWithoutCallback(code) {
         this.ref_editor.silent = true;
-        // let pos = this.ref_editor.editor.getCursorPosition();
+        let pos = this.ref_editor.editor.getCursorPosition();
         this.setCode(code);
-        // pos.column += 1;
-        // this.ref_editor.editor.moveCursorToPosition(pos);
+        pos.column += 1;
+        this.ref_editor.editor.moveCursorToPosition(pos);
         this.ref_editor.silent = false;
     }
 
